@@ -1,0 +1,14 @@
+# Stwórz klasę KalkulatorWalut. Dodaj w niej metodę statyczną (@staticmethod) o nazwie
+# usd_na_pln, która przyjmuje kwotę w dolarach i zwraca ją przeliczoną na złotówki (przyjmij
+# stały kurs, np. 1 USD = 4.0 PLN). Wywołaj tę metodę bez tworzenia obiektu klasy
+
+class KalkulatorWalut:
+    @staticmethod
+    def usd_na_pln(usd):
+        return usd / 4
+    
+print(KalkulatorWalut.usd_na_pln(10))
+
+calc = KalkulatorWalut()
+
+print(calc.usd_na_pln(10))
