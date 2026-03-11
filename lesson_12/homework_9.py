@@ -42,14 +42,14 @@ try:
     # print(k.saldo)
     k.wplac(500)
     print(k.saldo)
-    # k.wyplac(-7)
-    # print(k.saldo)
+    k.wyplac(-7)
+    print(k.saldo)
     k.wyplac(200)
     print(k.saldo)
     k.wyplac(700)
     print(k.saldo)
 except ValueError as e:
-    print("Klingonie zła kwota")
+    print(e)
 except BrakSrodkowError as e:
     print(e)
 
