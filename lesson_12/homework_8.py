@@ -16,7 +16,6 @@ while True:
     try:
         number_1 = int(input("podaj pierwszą liczbę: "))
         number_2 = int(input("podaj drugą liczbę: "))
-
     
         sign = input("Podaj znak, +, -, *, /: ")
 
