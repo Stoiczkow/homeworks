@@ -1,3 +1,3 @@
 # Lesson 12
 
-Tu wrzuć rozwiązanie zadania..
+Tu wrzuć rozwiązanie zadania.....
