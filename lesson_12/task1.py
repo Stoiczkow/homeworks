@@ -21,4 +21,4 @@ print(scifi)
 print(komdia)
 
 
-# domyślnie tak wypluwa Film(tutul='Terminator' - jest =
+# domyślnie tak wypluwa Film(tutul='Terminator' - jest  =
