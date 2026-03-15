@@ -1,17 +1,24 @@
+#  ✏ Zadanie 1 – Klasa danych Film
+# Stwórz klasę danych (@dataclass) o nazwie Film, która będzie przechowywać tytuł (string), reżysera (string) i rok_produkcji (integer). Utwórz dwie instancje tej klasy i wyświetl je
+
+# Importujemy dekorator z bibloteki datacalss
+
 from dataclasses import dataclass
 
-
-
-@dataclass
-class Film:
-    tytul: str
-    rezyser: str # (string)
+@dataclass  # dekorator     # Pisanie klasy za pomocą dataclass
+class Film:     # nazwa klasy       # ten konstruktor nie robi walidacji danych 
+    tutul: str      #dekorwanie
+    rezyszer: str       # Python olewa czy str czy int
     rok_produkcji: int
 
-syfy = Film("Terminator", "Cameron", "1984")
+# Uwtworzenie instacji klas
+scifi = Film("Terminator", "Cameron", "1984")
+komdia = Film("chłopaki nie płączą", "Lubaszenko", 1997) # adnotacje w klasie
 
-komedia = Film ("Chłopaki nie płaczą", "Lubaszenko", 1997 )
+#Wyświetlenie ich 
+print(scifi)
 
-print(syfy)
+print(komdia)
 
-print(komedia)
+
+# domyślnie tak wypluwa Film(tutul='Terminator' - jest =
