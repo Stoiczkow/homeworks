@@ -9,3 +9,4 @@ try:
     # obsługa wyjątku
 except FileNotFoundError:
     print("Plik nie istnieje")
+    

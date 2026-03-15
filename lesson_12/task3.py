@@ -16,3 +16,4 @@ class KalkulatorWalut:
     
 # wywołanie metody bez tworzenia obiektu
 print(KalkulatorWalut.usd_na_pln(20))
+

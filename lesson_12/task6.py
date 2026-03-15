@@ -22,3 +22,4 @@ try:
 
 except InvalidPasswordError as error:    # przypisujemy błąd do zmiennej 
     print(f"Wystąpił błąd - {error}")
+    

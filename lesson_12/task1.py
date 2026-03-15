@@ -22,3 +22,4 @@ print(komdia)
 
 
 # domyślnie tak wypluwa Film(tutul='Terminator' - jest  =
+

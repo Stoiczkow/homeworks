@@ -30,3 +30,4 @@ while True:
         print(f"wynik {result}")
     finally:      # zawsze wyświetla komunikat „Koniec obliczeń.” po każdej iteracji.
         print("Koniec oblcizeń \n")
+        
