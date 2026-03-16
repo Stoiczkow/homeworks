@@ -83,10 +83,8 @@ print(cursor.fetchall())
 cursor.execute("""
                 CREATE TABLE IF NOT EXISTS przypisania
                (id_przypisania INTEGER PRIMARY KEY,
-               id_studenta INTEGER,
-               id_audytorium INTEGER,
-               FOREIGN KEY (id_studenta) REFERENCES studenci(id_studenta),
-               FOREIGN KEY (id_audytorium) REFERENCES audytoria(id_audytorium)
+               id_studenta INTEGER REFERENCES studenci(id_studenta),
+               id_audytorium INTEGER REFERENCES audytoria(id_audytorium)
                )
                """)
 
