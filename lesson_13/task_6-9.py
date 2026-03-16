@@ -12,6 +12,8 @@ connection = sqlite3.connect('uczelnia.db')
 
 cursor = connection.cursor()
 
+cursor.execute("PRAGMA foreign_keys = ON")
+
 cursor.execute("""
                CREATE TABLE IF NOT EXISTS studenci
                (id_studenta INTEGER PRIMARY KEY,
