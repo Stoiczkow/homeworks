@@ -5,10 +5,11 @@ def bezpieczne_dzielenie(a, b):
     try:
         return a / b
     except ZeroDivisionError:
-        print("Błąd: Dzielenie przez zero!")       
+        print("Błąd: Dzielenie przez zero!")
         return None
-b = bezpieczne_dzielenie(1,0)
-a = bezpieczne_dzielenie(1,2)
+    
+wynik = bezpieczne_dzielenie(1, 2)
+wynik1 = bezpieczne_dzielenie(1, 0)  
 
-print(b)
-print(a)
+print(wynik)
+print(wynik1)
