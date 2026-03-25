@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import Zadania
+from models import Zadania, Tag, ZadaniaTag
 
 def pokaz_zadania(db: Session):
     zadania = db.query(Zadania).all()
@@ -9,7 +9,7 @@ def pokaz_zadania(db: Session):
     print('--- Twoje zadania ---')
 
     for zadanie in zadania:
-        print(f"ID {zadanie.id} - {zadanie.opis} - Zrobione {zadanie.zrobione}, data utworzenia {zadanie.data_utworzenia}")
+        print(f"ID {zadanie.id} - {zadanie.opis} - Zrobione {zadanie.zrobione}, data utworzenia {zadanie.data_utworzenia}, Tagi {zadanie.tags}")
 
 def dodaj_zadanie(db: Session, nowy_opis: str):
     nowe_zadanie = Zadania(opis=nowy_opis)
@@ -59,7 +59,26 @@ def edytuj_zadanie(db: Session, id_zadania: int, edytowany_opis: str):
         print(f"Zaktualizowano opis zadania ID: {id_zadania}")
     else:
         print(f"Nie znaleziono zadania ID: {id_zadania} ")
-        
+
+def dodaj_tag(db: Session, nowa_nazwa: str):
+    nowy_tag = Tag(nazwa=nowa_nazwa)
+    
+    db.add(nowy_tag)
+    db.commit()
+
+def poiwaz_zadanie_z_tagiem(db: Session, id_zadania: int, id_tagu: int):
+    nowe_powiazanie = ZadaniaTag(zadanie_id=id_zadania,
+                                 tag_id=id_tagu)
+    
+    db.add(nowe_powiazanie)
+    db.commit()
+
+def pokaz_tagi(db: Session):
+    tags = db.query(Tag).all()
+
+    print('==== Twoje tagi ====')
+    for tag in tags:
+        print(f'ID {tag.id} - {tag.nazwa} - {tag.zadania}')
 
 def main():
     db = get_db()
@@ -73,7 +92,10 @@ def main():
         print('4 - Usuń zadanie')
         print('5 - Filtruj zadania')
         print('6 - Edytuj opis zadania')
-        print('7 - Wyjdź')
+        print('7 - Dodaj nowy tag')
+        print('8 - Dodaj tag do zadania')
+        print('9 - Pokaż tagi')
+        print('10 - Wyjdź')
 
         choice = input('Wybierz opcję: ')
 
@@ -102,6 +124,15 @@ def main():
             except ValueError:
                 print(f"Nieprawidłowy format ID. Musi być int")
         elif choice == '7':
+            nowy_tag = input('Podaj nazwę tagu: ')
+            dodaj_tag(db, nowy_tag)
+        elif choice == '8':
+            id_zadania = int(input("Podaj id zadania: "))
+            id_tagu = int(input("podaj id tagu: "))
+            poiwaz_zadanie_z_tagiem(db, id_zadania, id_tagu)
+        elif choice == '9':
+            pokaz_tagi(db)
+        elif choice == '10':
             print('Koniec działania programu.')
             break
 
