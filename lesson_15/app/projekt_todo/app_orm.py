@@ -51,6 +51,17 @@ def dodaj_zadanie(db: Session, nowy_opis: str):
     db.commit()
     db.refresh(nowe_zadanie)
 
+def edytuj_zadanie(db: Session, id_zadania: int, nowy_opis: str):
+    zadanie = db.query(Zadania).filter(Zadania.id == id_zadania).first()
+
+    if not zadanie:
+        print("Nie ma takiego zadania")
+        return
+
+    zadanie.opis = nowy_opis # type: ignore
+    db.commit()
+    print("Opis zadania został zaktualizowany")
+
 def oznacz_jako_zrobione(db: Session, id_zadania: int):
     zadanie = db.query(Zadania).filter(Zadania.id == id_zadania).first()
 
@@ -85,8 +96,9 @@ def main():
         print("5 - Usun zadanie")
         print("6 - Dodaj Tag")
         print("7 - Dodaj tag do zadania")
-        print("8 - Pokaz tagi")
-        print("9 - Wyjście z programu")
+        print("8 - Edytuj zadanie")
+        print("9 - Pokaz tagi")
+        print("10 - Wyjście z programu")
 
         print("===============")
 
@@ -113,9 +125,13 @@ def main():
             id_zadania = int(input("Podaj id zadania: "))
             id_tagu = int(input("Podaj id tagu: "))
             powiaz_zadanie_z_tagiem(db, id_zadania, id_tagu)
-        if choice == '8':
-            pokaz_tagi(db)
+        elif choice == '8':
+            id_zadania = int(input("Podaj id zadania do edycji: "))
+            nowy_opis = input("Podaj nowy opis zadania: ")
+            edytuj_zadanie(db, id_zadania, nowy_opis)
         elif choice == '9':
+            pokaz_tagi(db)
+        elif choice == '10':
             print("Koniec działania programu! ")
             break
 
