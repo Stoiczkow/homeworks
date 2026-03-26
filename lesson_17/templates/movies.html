@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title if page_title else "Lista filmow" }}</title>
+</head>
+<body>
+    <h1>{{ page_title if page_title else "Moje filmy" }}</h1>
+    <ul>
+        {% for movie in movies %}
+            <li>{{ movie }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
