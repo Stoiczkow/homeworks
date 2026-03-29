@@ -1,0 +1,7 @@
+
+
+Klient to program lub urządzenie, które wysyła żądania i chce uzyskać dane lub wykonać jakąś operację.
+np: przeglądarka
+
+Serwer to system, który odbiera żądania od klientów, przetwarza je i odsyła odpowiedź (np. dane, stronę, wynik operacji).
+np: serwer strony

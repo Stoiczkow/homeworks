@@ -1,0 +1,1 @@
+Protokół IP należy do warstwy internetowej (Internet Layer) w modelu TCP/IP.

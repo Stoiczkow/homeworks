@@ -1,0 +1,1 @@
+Najprawdopodobniej przeglądarka wysyła metodę GET
