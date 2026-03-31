@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Moje Filmy</title> <!-- Zmienna przekazana z Flaska -->
+</head>
+
+<body>
+
+        <h1>{{page_title}} </h1>
+
+    <ul> <!-- ul musi być żeby były punkty --> 
+        <!-- Używamy pętli for, aby iterować po liście, odpowiada za punkt --> 
+        {% for film in movies %}
+            <li>{{ film }}</li>
+        {% endfor %}
+
+    </ul>
+
+</body>
+
+</html>
