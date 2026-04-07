@@ -1,0 +1,1 @@
+"""Pakiet endpointów aplikacji."""
