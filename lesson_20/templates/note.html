@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Notatek{% endblock %}
+
+{% block content %}
+
+    <ul>
+        {% for note in notes %}
+            <li><strong>{{ note.title }}</strong></li>
+            <li>{{ note.content }}</li>
+            <hr>
+        {% endfor %}
+    </ul>
+
+    <!-- Sekcja Paginacji -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">« poprzednia</a>
+            {% endif %}
+
+            <span class="current">
+                Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">następna »</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}
