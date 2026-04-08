@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Wszystkie notatki{% endblock %}</title>
+</head>
+
+<body>
+        <h1>Notatki</h1>
+
+        {% for note in notes %}
+        <p>
+            <h2>Tytuł: {{ note.title }}</h2> <br>Opis:<br> {{ note.content }}</p>
+        {% endfor %}
+</body> 
+
+
+</html>
