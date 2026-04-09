@@ -1,0 +1,19 @@
+{% extends 'base_notes.html' %}
+{% block title %}Wszystkie Notatki{% endblock %}
+{% block content %}
+
+<h2>Lista wszystkich notatek</h2>
+
+{% for entry in page_obj %}
+<div class=note>
+<h2>{{ entry.title }}</h2>
+<p>{{ entry.content }}</p>
+</div>
+{% endfor %}
+
+<div class="paginator">
+{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}"><- Poprzednia</a>{% endif %}
+{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Następna -></a>{% endif %}
+</div>
+
+{% endblock %}

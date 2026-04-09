@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2><u>Lista produktów</u></h2>
+
+{% for product in products %}
+{% if product.name == 'Kosz' %}
+<h3>CENA PROMOCYJNA: {{ product.name }} - {{ product.price }} PLN</h3>
+{% else %}
+<h3>Cena standardowa: {{ product.name }} - {{ product.price }} PLN</h3>
+{% endif %}
+
+<p>{{ product.description }}</p>
+    {% empty %}
+    <li>Brak produktów do wyświetlenia.</li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base_notes.html' %}
+{% block title %}Notatka{% endblock %}
+{% block content %}
+{% if message %}
+<b>Uwaga!!!</b>
+<p>{{ message }}</p>
+{% endif %}
+<h2>{{ note.title }}</h2>
+<li>{{ note.content }}</li>
+{% endblock %}

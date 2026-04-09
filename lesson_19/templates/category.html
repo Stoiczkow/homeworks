@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if message %}
+<h2>Nie znaleziono takiej kategorii</h2>
+{% endif %}
+
+{% if name %}
+<h2>Produkty z kategorii {{ name }}</h2>
+
+{% for product in products_from_category %}
+<p>*** {{ product }} ***</p>
+
+{% empty %}
+<p>W tej kategorii nie ma produktów.</p>
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}
