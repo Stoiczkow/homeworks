@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Artykułów</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <h1>Wszystkie artykuły</h1>
+    {% if articles %}
+    <ul>
+        {% for article in articles %}
+        <li>
+            <h2>{{ article.title }}</h2>
+            <p>Opublikowano: {{ article.pub_date|date:"d.m.Y" }}</p>
+            <p>Treść: {{ article.content }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Brak artykułów do wyświetlenia.</p>
+    {% endif %}
+    <br><br>
+    <form>
+        <label for="q">Wyszukaj:</label><br>
+        <input type="text" id="q" name="q"><br>
+    </form>
+    <img src="{% static 'earth.png' %}" </body>
+
+</html>

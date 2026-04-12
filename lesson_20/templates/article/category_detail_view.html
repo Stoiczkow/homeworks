@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Widok kategorii</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    {% if category %}
+    <h1>Nazwa kategorii ID {{ category.id }}: {{ category.name }}</h1>
+    {% if articles %}
+    <p>Lista artykułów:</p>
+    {% for article in articles %}
+    {% if article.1 %}<p>NOWOŚĆ!</p>{% endif %}
+    <p>*<b> {{ article.0.title }}</b></p>
+    <p>Opublikowano: {{ article.0.pub_date }} </p>
+    <br><br>
+    {% endfor %}
+    {% else %}
+    <p>Kategoria nie zawiera artykułów</p>
+    {% endif %}
+
+    {% else %}
+    <p>Kategoria nie istnieje.</p>
+    {% endif %}
+</body>
+
+</html>
