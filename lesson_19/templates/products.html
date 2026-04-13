@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% if category %}{{ category.name }} - Poddkategoria{% else %}Lista Produktów{% endif %}{% endblock %}</title>
+</head>
+
+<body>
+    {% if category %}
+        <h1>Produkty w kategorii: {{ category.name }}</h1>
+    {% else %}
+        <h1>Lista produktów </h1>
+    {% endif %}
+
+    {% for product in products %}
+        {% if product.name == "TV" %}
+            <p>PROMOCJA !!! {{product.name}} - Opis: {{product.description}} - Cena: {{product.price }}</p>
+        {% else %}
+             <p>{{product.name}} - Opis: {{product.description}} - Cena: {{product.price }}</p>
+        {% endif %}
+    {% endfor %}
+</body>
+
+</html>
