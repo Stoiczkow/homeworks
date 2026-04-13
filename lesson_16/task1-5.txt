@@ -1,0 +1,33 @@
+Zdanie 1. Dopasowanie pojęć
+    A. DELETE - skasowanie danych
+    B. GET - pobranie danych
+    C. PUT - zastąpienie starych, nowymi danymi
+    D. POST - dodanie nowych danych
+
+Zadanie 2. Własnymi słowami: Wyjaśnij, jaka jest różnica między Klientem a Serwerem w architekturze Klient-Serwer. Podaj po jednym przykładzie każdego z nich.
+    Klient - program wysyła żądanie, np. przeglądarka internetowa
+    Serwer - odbiera żądanie, odpowiednio je przetwarza i odsyła odp.
+
+Zadanie 3. Model żądania: Utwórz w Pythonie słownik, który będzie reprezentował żądanie GET w celu pobrania listy wszystkich artykułów z adresu /api/articles . W nagłówkach dodaj klucz Host z wartością my-blog.com .
+
+    http_get_request = {
+        "start_line": {
+            "method": "GET",
+            "target": "/api/articles",
+            "version": "HTTP/1.1"
+        },
+        "headers": {
+            "Host": "my-blog.com"
+        },
+        "body": None
+    }
+
+Zadanie 4. Pytanie teoretyczne: Kiedy otwierasz stronę google.com w przeglądarce, jaką metodę HTTP najprawdopodobniej wysyła Twoja przeglądarka, aby wyświetlić stronę główną?
+
+    GET. Przeglądarka chce pobrać zawartość i GET służy właśnie do tego.
+
+Zadanie 5. Pytanie teoretyczne: Do której warstwy modelu TCP/IP należy protokół IP, odpowiedzialny za znalezienie drogi do komputera docelowego?
+
+    Warstwa Internetowa(Internet Layer)
+
+
