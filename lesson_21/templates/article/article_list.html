@@ -15,6 +15,9 @@
     <ul>
         {% for article in articles %}
         <li>
+            {% if article.is_new %}
+            <p>NOWOŚĆ!!!</p>
+            {% endfor %}
             <h2>{{ article.title }}</h2>
             <p>Opublikowano: {{ article.pub_date|date:"d.m.Y" }}</p>
         </li>

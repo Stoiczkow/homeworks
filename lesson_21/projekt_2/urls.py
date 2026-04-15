@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from article.views import create_article, filter_articles, view_categories, category_detail_view, category_detail
+from blog.views import category_posts, home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +25,7 @@ urlpatterns = [
     path("filter_article/", filter_articles),
     path('categories/', view_categories),
     path('categories/<int:category_id>', category_detail_view),
-    path('category-detail/<int:cat_id>/', category_detail)
+    path('category-detail/<int:cat_id>/', category_detail),
+    path('category/<int:category_id>', category_posts),
+    path('blog/home', home)
 ]

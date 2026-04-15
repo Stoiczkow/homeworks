@@ -1,6 +1,6 @@
 from gettext import Catalog
 from unicodedata import category
-
+from datetime import datetime
 from django.db import models
 
 
@@ -20,6 +20,9 @@ class Article(models.Model):
     # category_id = models.ManyToManyField(Category)
     # category_id = models.OneToOneField(Category)
 
+    @property
+    def is_new(self):
+        return datetime.now() - self.pub_date < 3
     
     def __str__(self):
         return self.title
