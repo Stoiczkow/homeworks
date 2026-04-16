@@ -1,0 +1,30 @@
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<title>Logowanie</title>
+</head>
+
+<body>
+    <h2>Logowanie</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zaloguj</button>
+  </form>
+
+  <a href="{% provider_login_url 'google' %}">
+    Zaloguj przez Google
+  </a>
+
+  <p>
+    Nie masz konta?
+    <a href="{% url 'account_signup' %}">Zarejestruj się</a>
+  </p>
+</body>
+
+</html>

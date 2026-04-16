@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<title>Lista Artykułów</title>
+<link rel="stylesheet" href="{% static 'article/style.css' %}"/>
+</head>
+
+<body>
+    
+<form method="get">
+    {% csrf_token %} 
+    {{ form.as_p }} 
+    <button type="submit">Szukaj</button>
+</form>
+
+<h1>Wszystkie artykuły</h1>
+{% if articles %}
+<ul>
+{% for article in articles %}
+<li>
+<h2>{{ article.title}}
+    {% if article.is_new %}
+    <span>NOWOŚĆ</span>
+    {% endif %}
+</h2>
+<p>Opublikowano: {{ article.pub_date|date:"d.m.Y" }}</p>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Brak artykułów do wyświetlenia.</p>
+{% endif %}
+
+<img id=""src="{% static 'article/obrazek.png' %}"
+</body>
+
+</html>

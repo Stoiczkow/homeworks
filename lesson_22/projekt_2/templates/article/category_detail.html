@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+<meta charset="UTF-8">
+<title>Kategoria: {{category.name}}</title>
+<link rel="stylesheet" href="{% static 'article/style.css' %}"/>
+</head>
+
+<body>
+<h1>{{category.name}}</h1>
+<ul>
+    {%for article in articles %}
+    <li>
+        <h3>{{ article.title}}</h3>
+        <p> {{ article.content}}</p>
+        <p> Data publikacji: {{ article.pub_date}}</p>
+
+    </li>
+    {% endfor %}
+</ul>
+<img id=""src="{% static 'article/obrazek.png' %}"
+</body>
+
+</html>
