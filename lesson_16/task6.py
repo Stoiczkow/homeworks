@@ -11,20 +11,25 @@ class HttpRequest:
         self.body = body
     
     def display(self):
-        print("---HTTP Request---")
+        print("--- HTTP Request ---")
         print(f"Method: {self.method}")
         print(f"Target: {self.target}")
         print("Headers:")
         for key, value in self.headers.items():
             print(f" {key}: {value}")
-        print("Body: ")
+        print("Body:")
         if self.body is None:
-            print("(empty)")
+            print(" (empty)")
         else:
-            print(f"{self.body}")
+            print(f" {self.body}")
+        print("--------------------")
 
-request = HttpRequest("POST", 
-                      "/index.html", 
-                      {"Host": "example.com", "User-Agent": "PythonClient/1.0"}, '{"title": "Nowy wpis", "content": "Treść"}' 
-                      )
+
+request = HttpRequest(
+    "POST",
+    "/index.html",
+    {"Host": "example.com", "User-Agent": "PythonClient/1.0"},
+    '{"title": "Nowy wpis", "content": "Treść"}'
+)
+
 request.display()
