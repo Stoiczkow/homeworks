@@ -1,36 +1,25 @@
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, get_object_or_404
 
 from .models import Category, Article
 
 
 # Zadanie 3 – lista kategorii
-class CategoryListView(ListView):
-    model = Category
-    template_name = 'blog/category_list.html'
-    context_object_name = 'categories'
+def category_list_view(request):
+    categories = Category.objects.all()
+    return render(request, 'blog/category_list.html', {'categories': categories})
 
 
 # Zadanie 6 – szczegóły kategorii (+ zadanie 7: lista artykułów)
-class CategoryDetailView(DetailView):
-    model = Category
-    template_name = 'blog/category_detail.html'
-    context_object_name = 'category'
+def category_detail_view(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    return render(request, 'blog/category_detail.html', {'category': category})
 
 
 # Zadanie 8 + 10 – lista artykułów (tylko opublikowane + wyszukiwanie)
-class ArticleListView(ListView):
-    model = Article
-    template_name = 'blog/article_list.html'
-    context_object_name = 'articles'
-
-    def get_queryset(self):
-        queryset = Article.objects.filter(is_published=True)
-        q = self.request.GET.get('q')
-        if q:
-            queryset = queryset.filter(title__icontains=q)
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['q'] = self.request.GET.get('q', '')
-        return context
+def article_list_view(request):
+    articles = Article.objects.filter(is_published=True)
+    # Zadanie 10 – filtrowanie po tytule
+    q = request.GET.get('q')
+    if q:
+        articles = articles.filter(title__icontains=q)
+    return render(request, 'blog/article_list.html', {'articles': articles, 'q': q or ''})
