@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kategoria: {{ category.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Zadanie 2 – widok kategorii z listą postów (filter) -->
+    <h1>Kategoria: {{ category.name }}</h1>
+    <p>Liczba postów: {{ posts|length }}</p>
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>{{ post.title }}</strong>
+                <br>
+                <small>{{ post.published_at|date:"d.m.Y H:i" }}</small>
+                {% if post.tags.all %}
+                    &nbsp;
+                    {% for tag in post.tags.all %}
+                        <span class="tag">{{ tag.name }}</span>
+                    {% endfor %}
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Brak postów w tej kategorii.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'post-list' %}">← Powrót</a>
+</body>
+</html>

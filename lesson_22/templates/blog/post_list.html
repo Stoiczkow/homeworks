@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Blog</h1>
+
+    <nav>
+        {% if user.is_authenticated %}
+            Zalogowany: <strong>{{ user.username }}</strong> |
+            <a href="{% url 'account_logout' %}">Wyloguj</a>
+        {% else %}
+            <a href="{% url 'account_login' %}">Zaloguj się</a> |
+            <a href="{% url 'account_signup' %}">Zarejestruj się</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+    <!-- Zadanie 6 – formularz wyszukiwania (GET, __icontains) -->
+    <form method="get" action="">
+        <input type="text" name="q" value="{{ q }}" placeholder="Szukaj po tytule lub treści...">
+        <button type="submit">Szukaj</button>
+        {% if q %} <a href="{% url 'post-list' %}">Wyczyść</a>{% endif %}
+    </form>
+
+    <!-- Zadanie 3 – 5 najnowszych / wyniki wyszukiwania -->
+    {% if q %}
+        <h2>Wyniki dla: „{{ q }}"</h2>
+    {% else %}
+        <h2>5 najnowszych postów</h2>
+    {% endif %}
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>{{ post.title }}</strong>
+                {% if post.category %}
+                    – <a href="{% url 'category-posts' post.category.pk %}">{{ post.category.name }}</a>
+                {% endif %}
+                <br>
+                <small>{{ post.published_at|date:"d.m.Y H:i" }}</small>
+                {% if post.tags.all %}
+                    &nbsp;
+                    {% for tag in post.tags.all %}
+                        <span class="tag">{{ tag.name }}</span>
+                    {% endfor %}
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Brak postów.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
