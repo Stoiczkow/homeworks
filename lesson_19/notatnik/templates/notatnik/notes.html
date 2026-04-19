@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista notatek</title>
+</head>
+<body>
+    <h1>Lista notatek</h1>
+    <p><a href="/notes/add/">Dodaj nową notatkę</a></p>
+    {% if notes %}
+        <ul>
+            {% for note in notes %}
+                <li><a href="/notes/{{ note.id }}/">{{ note.title }}</a></li>
+            {% endfor %}
+        </ul>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if notes.has_previous %}
+                    <a href="?page=1">&laquo; Pierwsza</a>
+                    <a href="?page={{ notes.previous_page_number }}">Poprzednia</a>
+                {% endif %}
+                
+                <span class="current">
+                    Strona {{ notes.number }} z {{ notes.paginator.num_pages }}
+                </span>
+                
+                {% if notes.has_next %}
+                    <a href="?page={{ notes.next_page_number }}">Następna</a>
+                    <a href="?page={{ notes.paginator.num_pages }}">Ostatnia &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>Brak notatek.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,1 @@
+# Jest to metoda "GET"

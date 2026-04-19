@@ -1,0 +1,8 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}Panel Administratora Mojej Strony | {{ site_title|default:_('Django administration') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Panel Administratora Mojej Strony</a></h1>
+{% endblock %}
