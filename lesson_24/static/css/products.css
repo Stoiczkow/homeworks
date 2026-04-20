@@ -1,0 +1,16 @@
+.product-id {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.product-price {
+    font-weight: 700;
+    color: #198754;
+    white-space: nowrap;
+}
+
+.product-description {
+    max-width: 400px;
+    color: #495057;
+}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Strona główna - Moja Strona{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="hero-section text-center mb-5">
+    <i class="bi bi-house-heart-fill hero-icon"></i>
+    <h1 class="display-4 fw-bold mt-3">
+        {% if user.is_authenticated %}
+            Witaj, {{ user.username }}!
+        {% else %}
+            Witaj na stronie głównej!
+        {% endif %}
+    </h1>
+    <p class="lead mb-4">
+        Cieszymy się, że tu jesteś. Poznaj możliwości naszego serwisu.
+    </p>
+
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'logout' %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light btn-lg">
+                <i class="bi bi-box-arrow-right"></i> Wyloguj się
+            </button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-light btn-lg me-2">
+            <i class="bi bi-box-arrow-in-right"></i> Zaloguj się
+        </a>
+        <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">
+            <i class="bi bi-person-plus"></i> Zarejestruj się
+        </a>
+    {% endif %}
+</section>
+
+<section class="row g-4">
+    <div class="col-md-4">
+        <div class="card feature-card card-custom">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-lightning-charge-fill text-warning feature-icon"></i>
+                <h3 class="h5 fw-bold mt-3">Szybkość</h3>
+                <p class="text-muted mb-0">
+                    Nasza aplikacja działa błyskawicznie, byś nie tracił czasu.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature-card card-custom">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-shield-lock-fill text-success feature-icon"></i>
+                <h3 class="h5 fw-bold mt-3">Bezpieczeństwo</h3>
+                <p class="text-muted mb-0">
+                    Twoje dane są chronione zgodnie z najlepszymi praktykami.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature-card card-custom">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-heart-fill text-danger feature-icon"></i>
+                <h3 class="h5 fw-bold mt-3">Prostota</h3>
+                <p class="text-muted mb-0">
+                    Intuicyjny interfejs, który pokochasz od pierwszego użycia.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

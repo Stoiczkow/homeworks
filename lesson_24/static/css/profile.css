@@ -1,0 +1,33 @@
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    margin: 0 auto;
+}
+
+.info-row {
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.9rem 0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.info-value {
+    color: #212529;
+    font-weight: 500;
+}

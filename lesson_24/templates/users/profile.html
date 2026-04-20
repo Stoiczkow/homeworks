@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Profil - {{ user.username }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-7">
+        <div class="card card-custom">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="profile-avatar">
+                        {{ user.username|first|upper }}
+                    </div>
+                    <h2 class="fw-bold mt-3 mb-1">{{ user.username }}</h2>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-person-check"></i> Zalogowany użytkownik
+                    </p>
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="fw-bold mb-3">
+                    <i class="bi bi-info-circle text-primary"></i>
+                    Informacje o koncie
+                </h5>
+
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">
+                        <i class="bi bi-person"></i> Nazwa użytkownika
+                    </span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">
+                        <i class="bi bi-envelope"></i> Email
+                    </span>
+                    <span class="info-value">
+                        {{ user.email|default:"— brak —" }}
+                    </span>
+                </div>
+
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">
+                        <i class="bi bi-card-text"></i> Imię i nazwisko
+                    </span>
+                    <span class="info-value">
+                        {{ user.get_full_name|default:"— brak —" }}
+                    </span>
+                </div>
+
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">
+                        <i class="bi bi-calendar-event"></i> Data rejestracji
+                    </span>
+                    <span class="info-value">
+                        {{ user.date_joined|date:"d.m.Y H:i" }}
+                    </span>
+                </div>
+
+                <div class="info-row d-flex justify-content-between">
+                    <span class="info-label">
+                        <i class="bi bi-clock-history"></i> Ostatnie logowanie
+                    </span>
+                    <span class="info-value">
+                        {{ user.last_login|date:"d.m.Y H:i"|default:"— brak —" }}
+                    </span>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4 flex-wrap">
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-house"></i> Strona główna
+                    </a>
+                    <a href="{% url 'password_change' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-shield-lock"></i> Zmień hasło
+                    </a>
+                    <form method="POST" action="{% url 'logout' %}" class="d-inline m-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-right"></i> Wyloguj się
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,13 @@
+.register-icon {
+    font-size: 3rem;
+}
+
+.register-card-body {
+    padding: 2rem;
+}
+
+@media (min-width: 768px) {
+    .register-card-body {
+        padding: 3rem;
+    }
+}

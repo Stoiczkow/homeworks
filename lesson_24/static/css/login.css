@@ -1,0 +1,13 @@
+.auth-icon {
+    font-size: 3rem;
+}
+
+.auth-card-body {
+    padding: 2rem;
+}
+
+@media (min-width: 768px) {
+    .auth-card-body {
+        padding: 3rem;
+    }
+}
