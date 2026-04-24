@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <titile>Info</titile>
+</head>
+<body>
+    <h1>{{ naglowek }}</h1>
+    <p>{{ opis }}</p>
+    <h2>Nasze piwa:</h2>
+    <ul>
+        {% for piwo in piwa %}
+            <li>{{ piwo }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
