@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kategoria</title>
+</head>
+<body>
+    <h1> Kategoria {{ category.name }}</h1>
+    
+    {% if ogloszenia %}
+        <ul>
+            {% for ogloszenie in ogloszenia %}
+                <li>{{ ogloszenie.tytul }} - {{ ogloszenie.cena }} zł</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Brak ogłoszeń z tej kategorii</p>
+    {% endif %}
+</body>
+</html>
