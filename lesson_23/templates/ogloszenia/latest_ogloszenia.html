@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Najnowsze ogłoszenia</title>
+</head>
+<body>
+    <h1>5 najnowszych ogłoszeń</h1>
+    {% if ogloszenia %}    
+        <ul>
+            {% for ogloszenie in ogloszenia %}
+                <li>
+                    {{ ogloszenie.tytul }} - {{ ogloszenie.cena }} zł
+                    {% if ogloszenie.category %}
+                        | Kategoria: {{ ogloszenie.category.name }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Brak ogłoszeń</p>
+    {% endif %}
+</body>
+</html>
