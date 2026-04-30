@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+
+
+{% block content %}
+<h1>Lista produktow:</h1>
+<ul>    
+    {%for note in notes%}
+    <li>{{note.title}} - {{note.content}}</li>
+    {%empty%}
+    <li>brak produktow do wyswietlenia</li>
+    {%endfor%}
+</ul>
+    <p>&copy; Project</p>
+{%endblock%}
