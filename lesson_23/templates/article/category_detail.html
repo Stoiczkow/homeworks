@@ -1,0 +1,17 @@
+{%extends "base.html"%}
+{%load static%}
+
+{%block extra_css%}
+    <link rel="stylesheet" href="{% static 'article/category_detail.css' %}">
+{%endblock%}
+
+{%block content%}
+    <h1>Wybrana kategoria to: {{object_category}}</h1>
+    {%if objects%}
+        {%for object in objects%}
+            <p>{{object.title}} </p>
+        {%endfor%}
+    {%else%}
+        <p>Podana kategoria nie zawiera zadnych elementow</p>
+    {%endif%}
+{%endblock%}

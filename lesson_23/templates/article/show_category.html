@@ -1,0 +1,14 @@
+{%extends "base.html"%}
+{%load static%}
+
+{%block extra_css%}
+    <link rel="stylesheet" href="{% static 'article/style2.css' %}">
+{%endblock%}
+
+{%block content%}
+    <h2>Kategorie w bazie:</h2>
+    {%for category in categories%}
+        <p>{{category.name}}</p>
+    {%endfor%}
+
+{%endblock%}

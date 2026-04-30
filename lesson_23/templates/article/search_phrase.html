@@ -1,0 +1,17 @@
+<form method="GET" action="">
+    
+    <!-- {{ form.q }} -->
+
+    {{phrase.text}}
+    <button type="submit">Szukaj</button>
+</form>
+
+<hr>
+
+<ul>
+    {% for article in articles %}
+        <li>{{ article.title }}</li>
+    {% empty %}
+        <li>Brak artykułów spełniających kryteria.</li>
+    {% endfor %}
+</ul>

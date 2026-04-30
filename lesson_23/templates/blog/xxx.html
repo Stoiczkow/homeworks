@@ -1,0 +1,12 @@
+{%extends 'base.html' %}
+
+
+{%block content%}
+    <h2>{{post_phrase}} <button type="submit">Wyslij</button></h2>
+
+    {%for post in posts%}
+        <h4>{{post}}</h4>
+    {%endfor%}
+
+{%endblock%}
+
