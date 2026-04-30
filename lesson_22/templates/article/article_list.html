@@ -1,0 +1,16 @@
+{%extends "base.html"%}
+{%load static%}
+
+{%block extra_css%}
+    <link rel="stylesheet" href="{% static 'article/category_detail.css' %}">
+{%endblock%}
+
+{%block content%}
+    {%for object in is_published_objects%}
+        <p>{{object.title}}</p>
+        {% if object.is_new%}
+            <p>NOWOSC</p>
+        {% endif %}
+        <small>Opublikowano: {{ object.pub_date|date:"d.m.Y" }}</small>
+    {%endfor%}
+{% endblock %}
