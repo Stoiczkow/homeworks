@@ -14,11 +14,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from drf_spectacular.views import (
+SpectacularAPIView,
+SpectacularSwaggerView,
+SpectacularRedocView,
+)
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from tasks.views import TaskViewSet
+from tasks.views import (
+    TaskViewSet,
+    PlaceListAndCreateView,
+    PlaceGetSingleView,
+    complex_view,
+    PleaceDeleteView,
+    calculate_view,
+)
+
 from products.views import ProductsViewSet, setname, helloview, NoteViewSet, AuthorViewSet, BookViewSet
 
 router = routers.DefaultRouter()
@@ -33,5 +46,18 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/', include(router.urls)),
     path("api/set-name/", setname),
-    path("api/hello/", helloview)
+    path("api/hello/", helloview),
+    path("api/auth/", include("djoser.urls")),
+    path("api/auth/", include("djoser.urls.jwt")),
+    path("api/places/", PlaceListAndCreateView.as_view()),
+    path("api/places/<int:id>/", PlaceGetSingleView.as_view()),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("api/complex/", complex_view),
+    path("api/calculate/", calculate_view),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/schema/swagger-ui/",SpectacularSwaggerView.as_view(url_name="schema"),name="swagger-ui",),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),name="redoc",),
+    path("api/places/delete/<int:id>", PleaceDeleteView.as_view()),
 ]

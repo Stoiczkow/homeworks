@@ -13,14 +13,19 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = '__all__'
-        
+
+    def validate_title(self, value):
+        if len(value) < 5:
+            raise serializers.ValidationError('Tytuł notatki najmniej 5 znaków.')
+        return value
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = '__all__'      
-        
-        
+        fields = '__all__'
+
+
 class AuthorBookSerializer(AuthorSerializer):
     class Meta:
         model = Author

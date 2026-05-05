@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,11 +42,31 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    "rest_framework_simplejwt",
+    "djoser",
     "tasks",
     "products",
+    "debug_toolbar",
+    "drf_spectacular",
 ]
 
+REST_FRAMEWORK = {
+        "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+        "DEFAULT_AUTHENTICATION_CLASSES": (
+            "rest_framework_simplejwt.authentication.JWTAuthentication",
+),
+}
+
+SPECTACULAR_SETTINGS = {
+"TITLE": "Moje Wspaniałe API Projektu",
+"DESCRIPTION": "Dokumentacja dla API, które robi niesamowite rzeczy.",
+"VERSION": "1.0.0",
+"SERVE_INCLUDE_SCHEMA": False,
+}
+
+
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "products.middleware.CustomLogMiddelware",
 ]
 
 ROOT_URLCONF = 'drf_1.urls'
@@ -125,3 +147,40 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+INTERNAL_IPS = [
+"127.0.0.1",
+]
+
+CACHES = {
+"default": {
+"BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+"LOCATION": "unique-snowflake",
+}
+}
+
+CACHES = {
+"default": {
+"BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+"LOCATION": os.path.join(BASE_DIR, "django_cache"),
+}
+}
+
+SIMPLE_JWT = {
+"ACCESS_TOKEN_LIFETIME": timedelta(days=50), # tak nie robic
+"REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+CACHES = {
+"default": {
+"BACKEND": "django.core.cache.backends.redis.RedisCache",
+"LOCATION": "redis://127.0.0.1:6379",
+}
+}
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+# Zawsze dajemy na końcu pliku  nadpisuje to co wyzej te 60 dni z local_settings
