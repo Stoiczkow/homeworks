@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard rezerwacji</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        h1 {
+            margin: 0 0 24px;
+            font-size: 28px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        section {
+            background: #fff;
+            border: 1px solid #dbe3ee;
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        section.wide {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            margin: 0 0 16px;
+            font-size: 18px;
+        }
+
+        .chart-box {
+            height: 280px;
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: 42px repeat(11, 1fr);
+            gap: 4px;
+            overflow-x: auto;
+        }
+
+        .cell {
+            min-width: 36px;
+            height: 32px;
+            border-radius: 4px;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            background: #e8eef6;
+        }
+
+        .label {
+            background: transparent;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Dashboard rezerwacji</h1>
+
+        <div class="grid">
+            <section>
+                <h2>Rezerwacje per departament</h2>
+                <div class="chart-box">
+                    <canvas id="departmentsChart"></canvas>
+                </div>
+            </section>
+
+            <section>
+                <h2>Trend z ostatnich 30 dni</h2>
+                <div class="chart-box">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </section>
+
+            <section class="wide">
+                <h2>Najpopularniejsze godziny</h2>
+                <div class="heatmap">
+                    <div class="cell label"></div>
+                    {% for hour in hours %}
+                        <div class="cell label">{{ hour }}</div>
+                    {% endfor %}
+
+                    {% for day in range(7) %}
+                        <div class="cell label">{{ day_names[day] }}</div>
+                        {% for hour in hours %}
+                            {% set count = heatmap[day][hour] %}
+                            <div
+                                class="cell"
+                                style="background: rgba(37, 99, 235, {{ 0.12 + (count * 0.18) if count else 0.08 }});"
+                            >
+                                {{ count }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const departmentLabels = {{ department_labels | tojson }};
+        const departmentCounts = {{ department_counts | tojson }};
+        const trendLabels = {{ trend_labels | tojson }};
+        const trendCounts = {{ trend_counts | tojson }};
+
+        new Chart(document.getElementById("departmentsChart"), {
+            type: "pie",
+            data: {
+                labels: departmentLabels,
+                datasets: [{
+                    data: departmentCounts,
+                    backgroundColor: ["#2563eb", "#16a34a", "#f97316", "#dc2626"]
+                }]
+            }
+        });
+
+        new Chart(document.getElementById("trendChart"), {
+            type: "line",
+            data: {
+                labels: trendLabels,
+                datasets: [{
+                    label: "Rezerwacje",
+                    data: trendCounts,
+                    borderColor: "#2563eb",
+                    backgroundColor: "rgba(37, 99, 235, 0.15)",
+                    tension: 0.25,
+                    fill: true
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
