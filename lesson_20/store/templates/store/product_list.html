@@ -1,0 +1,20 @@
+{% extends "store/base.html" %}
+
+{% block title %}Produkty{% endblock %}
+
+{% block content %}
+    <h1>{% if category %}Produkty w kategorii: {{ category.name }}{% else %}Produkty{% endif %}</h1>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                <strong>{{ product.name }}</strong> -
+                {{ product.price }} PLN
+                {% if product.category %}({{ product.category.name }}){% endif %}
+                <p>{{ product.description }}</p>
+            </li>
+        {% empty %}
+            <li>Brak produktów.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
