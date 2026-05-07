@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your models here.
 
@@ -15,7 +17,13 @@ class Article(models.Model):
     category = models.ForeignKey(Category,
                                     on_delete=models.CASCADE)
     is_published = models.BooleanField(default=True)
+
+    @property
+    def is_new(self):
+        today = timezone.now()
+        range_days = timedelta(days = 3)
+        return self.pub_date > today - range_days
+
     
     def __str__(self):
         return self.title
-    

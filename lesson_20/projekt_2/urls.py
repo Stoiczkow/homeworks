@@ -15,14 +15,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 
 from article.views import create_article, filter_articles, view_categories, category_detail_view
+from blog.views import home_blog, posts_in_category_list
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/blog', permanent=False)),
     path('admin/', admin.site.urls),
     path('article/', create_article),
     path('filter_article', filter_articles),
     path('categories/', view_categories),
-    path('categories/<int:category_id>', category_detail_view)
+    path('categories/<int:category_id>', category_detail_view),
+
+    path('blog/', home_blog),
+    path('blog/category/<int:category_id>', posts_in_category_list),
+
+    path('accounts/', include('allauth.urls'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                        document_root=settings.MEDIA_ROOT)

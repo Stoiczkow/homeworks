@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db import IntegrityError
+from django.db import IntegrityError, connection
 from django.http import HttpResponse
 from .models import Article, Category
 from datetime import date, timedelta
@@ -49,23 +49,9 @@ def view_categories(request):
     return render(request, 'article/categories.html', {'categories': categories})
 
 def category_detail_view(request, category_id):
-    try:
-        selected_category = Category.objects.get(id=category_id)
-    except Category.DoesNotExist:
-        selected_category = None
-
-    articles_from_category = selected_category.article_set.all().order_by('-pub_date')
-
-    articles = []
-
-    today = date.today()
-    range_days = timedelta(days = 3)
-    range_to = today - range_days
-
-    for article in articles_from_category:
-        is_new = False
-        if article.pub_date.date() > range_to:
-            is_new = True
-        articles.append((article, is_new))
-
-    return render(request, 'article/category_detail_view.html', {'category': selected_category, 'articles': articles})
+    try: 
+        object_category = Category.objects.get(id=category_id) 
+        objects = object_category.article_set.all() 
+        return render(request, "article/category_detail_view.html", {"object_category": object_category, "objects": objects}, ) 
+    except Category.DoesNotExist: 
+        return render(request, "404.html", {"messages": "Nie znaleziono rekorów o podanym ID"})

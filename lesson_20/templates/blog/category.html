@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista postów z kategorii {{ category_id }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <b>Kategoria {{ posts.0.category_id }}</b>
+{% if posts %}
+{% for post in posts %}
+<p>* {{ post.title }}</p>
+{% endfor %}
+{% else %}
+<p>Nie znaleziono postów w tej kategorii.</p>
+{% endif %}
+</body>
+
+</html>

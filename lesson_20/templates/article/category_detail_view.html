@@ -10,14 +10,14 @@
 </head>
 
 <body>
-    {% if category %}
-    <h1>Nazwa kategorii ID {{ category.id }}: {{ category.name }}</h1>
-    {% if articles %}
+    {% if object_category %}
+    <h1>Nazwa kategorii ID {{ object_category.id }}: {{ object_category.name }}</h1>
+    {% if objects %}
     <p>Lista artykułów:</p>
-    {% for article in articles %}
-    {% if article.1 %}<p>NOWOŚĆ!</p>{% endif %}
-    <p>*<b> {{ article.0.title }}</b></p>
-    <p>Opublikowano: {{ article.0.pub_date }} </p>
+    {% for article in objects %}
+    {% if article.is_new %}<p>NOWOŚĆ!</p>{% endif %}
+    <p>*<b> {{ article.title }}</b></p>
+    <p>Opublikowano: {{ article.pub_date }} </p>
     <br><br>
     {% endfor %}
     {% else %}
