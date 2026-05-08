@@ -1,0 +1,6 @@
+/django_cache
+/notes
+/media
+celerybeat-schedule
+log.txt
+chain_result.txt
