@@ -1,0 +1,39 @@
+{% load static %}
+
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Artykułów</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Wszystkie artykuły</h1>
+
+    <form method="get">
+        <input type="text" name="q" value="{{ query }}" placeholder="Szukaj po tytule">
+        <button type="submit">Szukaj</button>
+    </form>
+
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <h2>
+                        {{ article.title }}
+                        {% if article.pub_date >= recent_limit %}
+                            <span>NOWOŚĆ!</span>
+                        {% endif %}
+                    </h2>
+                    <p>Opublikowano: {{ article.pub_date|date:"d.m.Y" }}</p>
+                    {% if article.category %}
+                        <p>Kategoria: {{ article.category.name }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Brak artykułów do wyświetlenia.</p>
+    {% endif %}
+</body>
+</html>
