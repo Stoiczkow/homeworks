@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Posty{% endblock %}
+
+{% block content %}
+    <h1>{% if query %}Wyniki wyszukiwania{% else %}Ostatnie posty{% endif %}</h1>
+
+    <form method="get">
+        <input type="text" name="q" value="{{ query }}" placeholder="Szukaj postów">
+        <button type="submit">Szukaj</button>
+    </form>
+
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h2>{{ post.title }}</h2>
+                <p>Kategoria: <a href="{% url 'category_posts' post.category.id %}">{{ post.category.name }}</a></p>
+                <p>{{ post.content|truncatewords:25 }}</p>
+                <p>
+                    Tagi:
+                    {% for tag in post.tags.all %}
+                        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                        brak
+                    {% endfor %}
+                </p>
+            </li>
+        {% empty %}
+            <li>Brak postów.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

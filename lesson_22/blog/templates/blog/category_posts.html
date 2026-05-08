@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+    <h1>Posty w kategorii: {{ category.name }}</h1>
+
+    <ul>
+        {% for post in posts %}
+            <li>{{ post.title }}</li>
+        {% empty %}
+            <li>Brak postów w tej kategorii.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

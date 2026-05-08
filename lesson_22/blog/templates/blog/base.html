@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Blog{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Strona główna</a>
+        <a href="/accounts/login/">Logowanie</a>
+        <a href="/accounts/signup/">Rejestracja</a>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>
