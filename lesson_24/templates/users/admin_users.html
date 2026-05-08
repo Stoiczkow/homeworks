@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Użytkownicy</h2>
+    <ul>
+        {% for account in users %}
+            <li>{{ account.username }} - {{ account.email }}</li>
+        {% empty %}
+            <li>Brak użytkowników.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
