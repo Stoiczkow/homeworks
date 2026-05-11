@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Celery multiply</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+        form { display: flex; gap: 8px; align-items: center; margin-top: 16px; }
+        input[type=number] { width: 100px; padding: 6px; }
+        button { padding: 6px 14px; cursor: pointer; }
+        .result { margin-top: 24px; padding: 12px; background: #f0f4f8; border-radius: 6px; }
+        .task-id { font-family: monospace; font-size: 12px; color: #666; }
+        .err { color: #b00020; }
+    </style>
+</head>
+<body>
+    <h1>Zadanie 2: multiply przez Celery</h1>
+    <p>Wpisz dwie liczby. Backend wyśle zadanie do Celery i pokaże wynik.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="number" step="any" name="a" placeholder="a" required value="{{ a|default_if_none:'' }}">
+        <span>×</span>
+        <input type="number" step="any" name="b" placeholder="b" required value="{{ b|default_if_none:'' }}">
+        <button type="submit">Policz</button>
+    </form>
+
+    {% if error %}
+        <p class="err">{{ error }}</p>
+    {% endif %}
+
+    {% if task_id %}
+        <div class="result">
+            <div>Wynik: <strong>{{ result }}</strong></div>
+            <div class="task-id">task_id: {{ task_id }}</div>
+        </div>
+    {% endif %}
+</body>
+</html>
