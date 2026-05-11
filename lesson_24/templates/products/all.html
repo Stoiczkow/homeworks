@@ -1,0 +1,12 @@
+{%extends "base.html"%}
+
+
+{%block content%}
+<h1>Strona glowna</h1>
+<div class="border-top pt-3">    
+    {%for product in products%}
+        <p>{{product.name}}</p>
+    {%endfor%}
+</div>
+
+{%endblock%}

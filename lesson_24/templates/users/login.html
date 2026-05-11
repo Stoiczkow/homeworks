@@ -1,0 +1,42 @@
+{%extends "base.html"%}
+
+{%block content%}
+    <form method="post">
+        {%csrf_token%}
+        <legend>Zaloguj sie</legend>
+        <fieldset class="form-group">
+
+            {{form.as_p}}
+            
+        </fieldset>
+        <button type="submit">Zaloguj</button>
+
+        <div>
+            <small>
+                Nie masz konta? <a class="ml-2" href="{%url 'register' %}">Zarejestruj sie</a>
+            </small> 
+        </div>
+    </form>    
+    
+
+
+
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

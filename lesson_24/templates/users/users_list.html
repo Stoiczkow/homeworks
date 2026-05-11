@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+
+{%block content%}
+    <h2>Lista produktow</h2>
+    {%for user in users%}
+    <p>{{user}}</p> 
+        {% if user.is_staff %}
+        <span>Staff</span>
+        {%endif%}
+    {%endfor%}
+
+{%endblock%}
