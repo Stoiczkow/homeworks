@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
+from celery.schedules import crontab
 
 load_dotenv()
 
@@ -42,11 +44,31 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'djoser',
     'tasks',
-    'products'
+    'products',
+    'debug_toolbar',
+    'drf_spectacular',
+
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Moje Wspaniałe API Projektu",
+    "DESCRIPTION": "Dokumentacja dla API, które robi niesamowite rzeczy.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'products.middelware.CustomLogMiddelware'
 ]
 
 ROOT_URLCONF = 'drf_1.urls'
@@ -125,3 +148,65 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": os.path.join(BASE_DIR, "django_cache"),
+#     }
+# }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_TIMEZONE = "Europe/Warsaw"
+
+CELERY_BEAT_SCHEDULE = {
+    # Nazwa zadania (dowolna, ale unikalna)
+    "send-summary-every-5-minutes": {
+        # Ścieżka do zadania, które ma być wykonane
+        "task": "tasks.tasks.send_periodic_summary",
+        # Harmonogram: uruchom co 5 minut
+        "schedule": 10.0,  # w sekundach
+        # Argumenty przekazywane do zadania
+        "args": (["user1@example.com", "user2@example.com"],),
+    },
+    "cleanup-database-daily": {
+        "task": "tasks.tasks.cleanup_old_logs",
+        # Uruchom codziennie o 4:05 rano
+        "schedule": crontab(hour=20, minute=15),
+    },
+}
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
