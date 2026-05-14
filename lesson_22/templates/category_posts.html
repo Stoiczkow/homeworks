@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Kategoria: {{ category.name }}</h2>
+    <p>Lista postów przypisanych do tej kategorii.</p>
+</section>
+
+{% for post in posts %}
+    <article class="card">
+        <h3>{{ post.title }}</h3>
+        <p><strong>Data:</strong> {{ post.publication_date|date:'d.m.Y H:i' }}</p>
+        <p>{{ post.content|truncatewords:35 }}</p>
+        {% if not post.is_published %}
+            <p class="muted">Ten post nie jest opublikowany.</p>
+        {% endif %}
+        {% if post.tags.all %}
+            <p><strong>Tagi:</strong>
+                {% for tag in post.tags.all %}
+                    <span class="tag">{{ tag.name }}</span>
+                {% endfor %}
+            </p>
+        {% endif %}
+    </article>
+{% empty %}
+    <section class="card">
+        <p>Ta kategoria nie ma jeszcze postów.</p>
+    </section>
+{% endfor %}
+{% endblock %}

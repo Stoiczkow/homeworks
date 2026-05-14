@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ heading }}</h1>
+    <p>Widok wyświetla dane z bazy i renderuje je pętlą <code>{% templatetag openblock %} for {% templatetag closeblock %}</code>.</p>
+    <a class="button-link" href="{% url 'product-add' %}">Dodaj produkt</a>
+</div>
+
+<div class="card">
+    <h2>Kategorie</h2>
+    <div class="category-list">
+        <a href="{% url 'product-list' %}">Wszystkie</a>
+        {% for category in categories %}
+            <a href="{% url 'category-products' category.id %}">{{ category.name }}</a>
+        {% empty %}
+            <span>Brak kategorii.</span>
+        {% endfor %}
+    </div>
+</div>
+
+{% for product in products %}
+    <article class="card">
+        <h3>{{ product.name }}</h3>
+        <p><strong>Cena:</strong> {{ product.price }} PLN</p>
+        <p><strong>Kategoria:</strong>
+            {% if product.category %}
+                <a href="{% url 'category-products' product.category.id %}">{{ product.category.name }}</a>
+            {% else %}
+                Brak kategorii
+            {% endif %}
+        </p>
+        <p>{{ product.description }}</p>
+    </article>
+{% empty %}
+    <div class="card">
+        <p>Brak produktów do wyświetlenia.</p>
+    </div>
+{% endfor %}
+{% endblock %}

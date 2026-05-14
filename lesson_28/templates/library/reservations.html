@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Moje rezerwacje{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1>Moje aktualne rezerwacje</h1>
+    <ul class="simple-list">
+        {% for reservation in current_reservations %}
+            <li>
+                <div>
+                    <strong>{{ reservation.copy.book.title }}</strong>
+                    <div>Egzemplarz: {{ reservation.copy.inventory_number }}</div>
+                    <div>Ważna do: {{ reservation.valid_until }}</div>
+                </div>
+                <form method="post" action="{% url 'cancel-reservation' reservation.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Anuluj</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>Nie masz aktywnych rezerwacji.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section class="panel">
+    <h2>Historia rezerwacji</h2>
+    <ul class="simple-list">
+        {% for reservation in historical_reservations %}
+            <li>
+                <div>
+                    <strong>{{ reservation.copy.book.title }}</strong>
+                    <div>Status: {{ reservation.get_status_display }}</div>
+                </div>
+                <span>Do: {{ reservation.valid_until }}</span>
+            </li>
+        {% empty %}
+            <li>Brak historycznych rezerwacji.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ author.full_name }}{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <p class="eyebrow">Autor</p>
+    <h1>{{ author.full_name }}</h1>
+    <p>{{ author.biography|default:'Brak biografii.' }}</p>
+</section>
+
+<section class="panel">
+    <h2>Książki autora</h2>
+    <ul class="simple-list">
+        {% for book in author.books.all %}
+            <li>
+                <a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a>
+                <span>{{ book.publication_date }}</span>
+            </li>
+        {% empty %}
+            <li>Brak książek dla tego autora.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

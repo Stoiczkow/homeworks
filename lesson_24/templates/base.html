@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lesson 24{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        header {
+            background: #2563eb;
+            color: white;
+            padding: 16px 24px;
+        }
+
+        nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        nav a,
+        nav button {
+            color: white;
+            text-decoration: none;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        main {
+            max-width: 860px;
+            margin: 24px auto;
+            padding: 0 16px 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            margin-bottom: 16px;
+        }
+
+        .alert {
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+        }
+
+        form p {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        input,
+        button {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font: inherit;
+        }
+
+        .primary-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'home' %}">Strona główna</a>
+                <a href="{% url 'profile' %}">Profil</a>
+                <a href="{% url 'password_change' %}">Zmień hasło</a>
+                {% if user.is_staff %}
+                    <a href="{% url 'staff-user-list' %}">Użytkownicy</a>
+                {% endif %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Wyloguj</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Zaloguj</a>
+                <a href="{% url 'register' %}">Zarejestruj</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

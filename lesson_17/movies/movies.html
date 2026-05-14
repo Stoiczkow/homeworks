@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pl"> # określenie języka strony
+<head>
+    <meta charset="UTF-8"> # formatowanie UTF-8 dla polskich znaków
+    <title>Moje filmy</title>
+</head>
+<body>
+
+    <h1>{{ page_title }}</h1>
+
+    <ul>
+        {% for film in movies %}
+            <li>{{ film }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

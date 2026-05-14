@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista artykułów{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Lista artykułów</h2>
+    <form method="get" class="search-form">
+        <label for="q">Szukaj po tytule:</label>
+        <input id="q" type="text" name="q" value="{{ query }}" placeholder="np. Django">
+        <button type="submit">Szukaj</button>
+    </form>
+    <p>Wyświetlane są tylko opublikowane artykuły.</p>
+</section>
+
+{% for article in articles %}
+    <article class="card">
+        <h3>
+            {{ article.title }}
+            {% if article.is_new %}
+                <span class="badge">NOWOŚĆ!</span>
+            {% endif %}
+        </h3>
+        <p><strong>Kategoria:</strong> <a href="{% url 'category-detail' article.category.id %}">{{ article.category.name }}</a></p>
+        <p><strong>Data publikacji:</strong> {{ article.pub_date|date:'d.m.Y H:i' }}</p>
+        <p>{{ article.content|truncatewords:30 }}</p>
+    </article>
+{% empty %}
+    <section class="card">
+        <p>Brak artykułów spełniających warunki wyszukiwania.</p>
+    </section>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lesson 22{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Blog Django</h1>
+        <nav>
+            <a href="{% url 'home' %}">Strona główna</a>
+            <a href="/accounts/login/">Logowanie</a>
+            <a href="/accounts/signup/">Rejestracja</a>
+            <a href="/admin/">Admin</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

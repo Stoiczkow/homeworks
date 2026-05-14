@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista notatek{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Lista notatek</h1>
+    <p>Paginacja pokazuje maksymalnie 3 notatki na stronę.</p>
+</div>
+
+{% for note in page_obj %}
+    <article class="card">
+        <h2><a href="{% url 'note-detail' note.id %}">{{ note.title }}</a></h2>
+        <p>{{ note.content|truncatewords:20 }}</p>
+    </article>
+{% empty %}
+    <div class="card">
+        <p>Brak notatek.</p>
+    </div>
+{% endfor %}
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">poprzednia</a>
+    {% endif %}
+
+    <span>Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">następna</a>
+    {% endif %}
+</div>
+{% endblock %}

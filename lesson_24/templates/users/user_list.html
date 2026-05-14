@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista użytkowników{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h1>Lista użytkowników</h1>
+    <ul>
+        {% for listed_user in users %}
+            <li>{{ listed_user.username }}{% if listed_user.email %} - {{ listed_user.email }}{% endif %}</li>
+        {% empty %}
+            <li>Brak użytkowników.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lesson 19{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            padding: 16px 24px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 16px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 960px;
+            margin: 24px auto;
+            padding: 0 16px 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            margin-bottom: 16px;
+        }
+
+        .category-list a,
+        .button-link {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 8px 8px 0;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 999px;
+            text-decoration: none;
+        }
+
+        .button-link {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        form p {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        input,
+        textarea,
+        select,
+        button {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font: inherit;
+        }
+
+        button {
+            background: #1d4ed8;
+            color: white;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .pagination a {
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'product-list' %}">Produkty</a>
+            <a href="{% url 'note-list' %}">Notatki</a>
+            <a href="{% url 'info' %}">Info</a>
+            <a href="{% url 'rules' %}">Rules</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

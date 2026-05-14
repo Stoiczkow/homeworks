@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h1>Zaloguj się</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="primary-btn" type="submit">Zaloguj</button>
+    </form>
+    <p>Nie masz konta? <a href="{% url 'register' %}">Zarejestruj się</a>.</p>
+</section>
+{% endblock %}

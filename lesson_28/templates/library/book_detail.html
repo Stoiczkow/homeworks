@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<section class="detail-layout">
+    <article class="panel">
+        <p class="eyebrow">Szczegóły książki</p>
+        <h1>{{ book.title }}</h1>
+        <p><strong>Autor:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author.full_name }}</a></p>
+        <p><strong>Data wydania:</strong> {{ book.publication_date }}</p>
+        <div class="tag-list">
+            {% for genre in book.genres.all %}
+                <span class="tag">{{ genre.name }}</span>
+            {% endfor %}
+        </div>
+        <p>{{ book.description }}</p>
+    </article>
+
+    <aside class="panel">
+        <h2>Dostępne egzemplarze</h2>
+        {% if available_copies %}
+            <ul class="copy-list">
+                {% for copy in available_copies %}
+                    <li>
+                        <span>{{ copy.inventory_number }}</span>
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'reserve-copy' copy.pk %}">
+                                {% csrf_token %}
+                                <button type="submit">Rezerwuj</button>
+                            </form>
+                        {% else %}
+                            <a class="button-link" href="{% url 'login' %}?next={{ request.path }}">Zaloguj, aby zarezerwować</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aktualnie brak wolnych egzemplarzy.</p>
+        {% endif %}
+    </aside>
+</section>
+{% endblock %}

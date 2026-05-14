@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Kategorie{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Lista kategorii</h2>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'category-detail' category.id %}">{{ category.name }}</a></li>
+        {% empty %}
+            <li>Brak kategorii w bazie danych.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

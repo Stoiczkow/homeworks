@@ -1,0 +1,4 @@
+.env
+room_booking.db
+__pycache__/
+*.pyc

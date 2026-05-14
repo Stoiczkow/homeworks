@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Celery{% endblock %}
+
+{% block content %}
+<section class="hero panel">
+    <div>
+        <p class="eyebrow">Lesson 29</p>
+        <h2>Uruchamiaj zadania w tle i sprawdzaj ich status</h2>
+        <p>Domyślnie projekt działa w trybie eager, żeby był uruchamialny bez Redisa. Aby przejść na prawdziwy broker i workery, ustaw zmienną środowiskową CELERY_TASK_ALWAYS_EAGER=0.</p>
+    </div>
+    <div class="command-list">
+        <p>Worker: celery -A config worker -l info</p>
+        <p>Beat: celery -A config beat -l info</p>
+        <p>Flower: celery -A config flower</p>
+    </div>
+</section>
+
+<section class="grid two-columns">
+    <article class="panel">
+        <h3>Szybkie akcje</h3>
+        <div class="button-stack">
+            <form method="post" action="{% url 'hello-world' %}">{% csrf_token %}<button type="submit">Hello World</button></form>
+            <form method="post" action="{% url 'log-timestamp' %}">{% csrf_token %}<button type="submit">Zapisz timestamp</button></form>
+            <form method="post" action="{% url 'count-users' %}">{% csrf_token %}<button type="submit">Policz użytkowników</button></form>
+            <form method="post" action="{% url 'video-processing' %}">{% csrf_token %}<button type="submit">Symuluj przetwarzanie wideo</button></form>
+            <form method="post" action="{% url 'scrape-example' %}">{% csrf_token %}<button type="submit">Uruchom scraping example.com</button></form>
+            <form method="post" action="{% url 'start-progress' %}">{% csrf_token %}<button type="submit">Start zadania z postępem</button></form>
+            <form method="post" action="{% url 'start-csv-report' %}">{% csrf_token %}<button type="submit">Generuj raport CSV użytkowników</button></form>
+            <form method="post" action="{% url 'retry-demo' %}">{% csrf_token %}<button type="submit">Demo ponawiania błędów</button></form>
+            <form method="post" action="{% url 'start-chain' %}">{% csrf_token %}<button type="submit">Uruchom chain zadań</button></form>
+        </div>
+    </article>
+
+    <article class="panel">
+        <h3>Mnożenie w tle</h3>
+        <form method="post" action="{% url 'multiply' %}" class="form-stack">
+            {% csrf_token %}
+            {{ multiply_form.as_p }}
+            <button type="submit">Dodaj zadanie multiply</button>
+        </form>
+
+        <h3>Aktualizacja last_login</h3>
+        <form method="post" action="{% url 'update-last-login' %}" class="form-stack">
+            {% csrf_token %}
+            {{ update_last_login_form.as_p }}
+            <button type="submit">Zleć aktualizację</button>
+        </form>
+    </article>
+</section>
+
+<section class="grid two-columns">
+    <article class="panel">
+        <h3>Powiadomienie mailowe</h3>
+        <form method="post" action="{% url 'email-notification' %}" class="form-stack">
+            {% csrf_token %}
+            {{ email_form.as_p }}
+            <button type="submit">Zapisz i wyślij w tle</button>
+        </form>
+    </article>
+
+    <article class="panel">
+        <h3>Klasyfikacja obrazu</h3>
+        <form method="post" action="{% url 'upload-image' %}" enctype="multipart/form-data" class="form-stack">
+            {% csrf_token %}
+            {{ upload_form.as_p }}
+            <button type="submit">Wyślij obraz</button>
+        </form>
+    </article>
+</section>
+
+<section class="grid two-columns">
+    <article class="panel">
+        <h3>Ostatnie maile</h3>
+        <ul class="item-list">
+            {% for notification in recent_notifications %}
+                <li>
+                    <strong>{{ notification.recipient_email }}</strong>
+                    <span>{{ notification.subject }}</span>
+                    <span>{% if notification.sent_at %}Wysłano{% else %}Oczekuje{% endif %}</span>
+                </li>
+            {% empty %}
+                <li>Brak zapisanych powiadomień.</li>
+            {% endfor %}
+        </ul>
+    </article>
+
+    <article class="panel">
+        <h3>Ostatnie logi</h3>
+        <ul class="item-list">
+            {% for entry in recent_logs %}
+                <li>
+                    <strong>{{ entry.created_at }}</strong>
+                    <span>{{ entry.message }}</span>
+                </li>
+            {% empty %}
+                <li>Brak logów.</li>
+            {% endfor %}
+        </ul>
+    </article>
+</section>
+
+<section class="grid two-columns">
+    <article class="panel">
+        <h3>Ostatnie scrape</h3>
+        <ul class="item-list">
+            {% for title in recent_titles %}
+                <li>
+                    <strong>{{ title.title }}</strong>
+                    <span>{{ title.url }}</span>
+                </li>
+            {% empty %}
+                <li>Brak pobranych tytułów.</li>
+            {% endfor %}
+        </ul>
+    </article>
+
+    <article class="panel">
+        <h3>Raporty CSV</h3>
+        <ul class="item-list">
+            {% for report in recent_reports %}
+                <li>
+                    <strong>Raport {{ report.id }}</strong>
+                    <span>{% if report.report_file %}<a href="{{ report.report_file.url }}">Pobierz plik</a>{% else %}W trakcie{% endif %}</span>
+                </li>
+            {% empty %}
+                <li>Brak raportów.</li>
+            {% endfor %}
+        </ul>
+    </article>
+</section>
+
+<section class="panel">
+    <h3>Ostatnie obrazy i użytkownicy</h3>
+    <div class="grid two-columns compact">
+        <ul class="item-list">
+            {% for image in recent_images %}
+                <li>
+                    <strong>Obraz {{ image.id }}</strong>
+                    <span>{{ image.classification_result|default:'Oczekuje na klasyfikację' }}</span>
+                </li>
+            {% empty %}
+                <li>Brak obrazów.</li>
+            {% endfor %}
+        </ul>
+        <ul class="item-list">
+            {% for user in users %}
+                <li>
+                    <strong>{{ user.username }}</strong>
+                    <span>ID: {{ user.id }}</span>
+                </li>
+            {% empty %}
+                <li>Brak użytkowników.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}

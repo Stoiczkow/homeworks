@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 27</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 840px;
+            margin: 40px auto;
+            padding: 0 16px;
+            line-height: 1.6;
+        }
+
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lesson 27: Cache w Django REST Framework</h1>
+    <p>Ta strona pomaga zobaczyć Django Debug Toolbar oraz przetestować endpointy cache.</p>
+    <ul>
+        <li><a href="/api/products/">/api/products/</a> - ViewSet z cache dla listy i detalu</li>
+        <li><a href="/api/products-cached/">/api/products-cached/</a> - widok GET cache'owany na 60 sekund</li>
+        <li><a href="/api/performance/">/api/performance/</a> - selektywne cache tylko dla kosztownych obliczeń</li>
+        <li><a href="/api/file-cache/">/api/file-cache/</a> - przykład użycia FileBasedCache</li>
+        <li><a href="/__debug__/">/__debug__/</a> - debug toolbar</li>
+    </ul>
+    <p>Katalog cache plikowego: <code>{{ cache_dir }}</code></p>
+</body>
+</html>

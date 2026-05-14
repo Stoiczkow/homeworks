@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>{{ category.name }}</h2>
+    <p>Artykuły przypisane do tej kategorii:</p>
+    <ul>
+        {% for article in category.articles.all %}
+            <li>
+                {{ article.title }}
+                {% if not article.is_published %}
+                    <span class="muted">(nieopublikowany)</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Ta kategoria nie ma jeszcze artykułów.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
