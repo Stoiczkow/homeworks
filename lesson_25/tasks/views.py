@@ -18,6 +18,8 @@ from django.db import transaction
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from .tasks import simulate_cpu_bound_task, multiplay
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     """
@@ -136,3 +138,15 @@ def calculate_view(request):
 
     return Response({"result": result})
     
+@api_view(["GET"])
+def test_celery(request):
+    a = request.query_params.get("a")
+    b = request.query_params.get("b")
+    print(int(a), int(b))
+    # task = simulate_cpu_bound_task.delay(20)
+    task = multiply.delay(int(a), int(b)) # w delay zawsze przekazujemy paremetry
+    return Response(
+        {"message": "Zadanie jest w trakcie wykonywania", "task_id": task.id}
+    )
+
+# albo uruchamiamy zawsze albo uruchamiamy za żądanie w tle

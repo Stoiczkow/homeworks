@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from datetime import timedelta
+from celery.schedules import crontab
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -177,6 +178,35 @@ CACHES = {
 "LOCATION": "redis://127.0.0.1:6379",
 }
 }
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_TIMEZONE = 'Europe/Warsaw'
+
+CELERY_BEAT_SCHEDULE = {
+    # Nazwa zadania (dowolna, ale unikalna)
+    "send-summary-every-5-minutes": {
+        # Ścieżka do zadania, które ma być wykonane
+        "task": "tasks.tasks.send_periodic_summary",
+        # Harmonogram: uruchom co 5 minut
+        "schedule": 10.0,  # w sekundach
+        # Argumenty przekazywane do zadania
+        "args": (["user1@example.com", "user2@example.com"],),
+    },
+    "cleanup-database-daily": {
+        "task": "tasks.tasks.cleanup_old_logs",
+        # Uruchom codziennie o 4:05 rano
+        "schedule": crontab(hour=20, minute=16),
+    },
+}
+
+# to crontab ale w celery powyzej 
+
 
 try:
     from .local_settings import *

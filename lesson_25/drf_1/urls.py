@@ -30,6 +30,7 @@ from tasks.views import (
     complex_view,
     PleaceDeleteView,
     calculate_view,
+    test_celery,
 )
 
 from products.views import ProductsViewSet, setname, helloview, NoteViewSet, AuthorViewSet, BookViewSet
@@ -60,4 +61,5 @@ urlpatterns = [
         "api/schema/redoc/",
         SpectacularRedocView.as_view(url_name="schema"),name="redoc",),
     path("api/places/delete/<int:id>", PleaceDeleteView.as_view()),
+    path("test_celery/", test_celery),
 ]
