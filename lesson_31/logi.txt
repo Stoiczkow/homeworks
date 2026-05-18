@@ -1,0 +1,5 @@
+Log generuje z korutyny 1
+Log generuje z korutyny 2
+Log generuje z korutyny 3
+Log generuje z korutyny 4
+Log generuje z korutyny 5
