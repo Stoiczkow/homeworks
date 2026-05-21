@@ -1,0 +1,5 @@
+Log z korutyny nr 0
+Log z korutyny nr 1
+Log z korutyny nr 2
+Log z korutyny nr 3
+Log z korutyny nr 4
