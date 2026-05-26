@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista artykulow{% endblock %}
+
+{% block content %}
+  <h2>Artykuly</h2>
+
+  <form method="get" action="">
+    <input type="text" name="q" value="{{ q }}" placeholder="Szukaj po tytule...">
+    <button type="submit">Szukaj</button>
+  </form>
+
+  <ul>
+    {% for article in articles %}
+      <li>
+        {{ article.title }} - {{ article.content }}
+        {% if article.pub_date >= three_days_ago %}
+          <span>NOWOŚĆ!</span>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>Brak artykulow do wyswietlenia.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

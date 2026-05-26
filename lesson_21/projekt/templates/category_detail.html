@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+  <h2>{{ category.name }}</h2>
+  <h3>Artykuly w tej kategorii:</h3>
+  <ul>
+    {% for article in category.article_set.all %}
+      <li>{{ article.title }}</li>
+    {% empty %}
+      <li>Brak artykulow w tej kategorii.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'category-list' %}">← Wróc do listy kategorii</a>
+{% endblock %}
