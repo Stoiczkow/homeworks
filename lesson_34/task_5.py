@@ -1,0 +1,50 @@
+# 5. ✏ Zadanie 5 – GraphQL - Lista użytkowników
+# Rozszerz API z zadania 4 o query users zwracające listę wszystkich użytkowników.
+# (proste)
+
+import strawberry
+from typing import List, Optional
+from aiohttp import web
+from strawberry.aiohttp.views import GraphQLView
+
+
+@strawberry.type
+class User:
+
+    id: int
+    name: str
+    email: str
+
+
+fake_users_db = [
+    User(id=1, name="Jan Kowalski", email="jan@example.com"),
+    User(id=2, name="Anna Nowak", email="anna@example.com"),
+]
+
+
+@strawberry.type
+class Query:
+
+    @strawberry.field
+    def user(self, id: int) -> Optional[User]:
+        """Pobierz użytkownika po ID"""
+        for user in fake_users_db:
+            if user.id == id:
+                return user
+        return None
+    
+    @strawberry.field
+    def users(self) -> list[User]:
+        """Pobierz wszystkich użytkowników"""
+        return fake_users_db
+
+schema = strawberry.Schema(query=Query)
+
+app = web.Application()
+
+app.router.add_route("*", "/graphql", GraphQLView(schema=schema))
+
+if __name__ == "__main__":
+    print("🚀 GraphQL API działa na http://localhost:8000/graphql")
+    print("📊 Otwórz w przeglądarce, aby użyć GraphiQL interface")
+    web.run_app(app, host="localhost", port=8000)
