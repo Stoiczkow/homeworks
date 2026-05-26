@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ title }}</title>
+  </head>
+
+  <body>
+    <ul>
+      Lista ulubionych filmow:
+      {% for e in films %}
+      <li>{{ e }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
