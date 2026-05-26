@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Artykuly autora: {{ author.name }}</title></head>
+<body>
+    <a href="/">Strona glowna</a>
+    <h1>Artykuly autora: {{ author.name }}</h1>
+
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>{{ article.title }} — {{ article.status }} — {{ article.published_date }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ten autor nie ma jeszcze zadnych artykulow.</p>
+    {% endif %}
+</body>
+</html>

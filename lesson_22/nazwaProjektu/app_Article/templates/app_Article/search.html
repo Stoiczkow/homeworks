@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head><title>Wyniki wyszukiwania</title></head>
+<body>
+    <a href="/">Strona glowna</a>
+
+    <h1>Wyniki dla: "{{ query }}"</h1>
+
+    <form action="/search/" method="GET">
+        <input type="text" name="q" value="{{ query }}" placeholder="Szukaj artykulow...">
+        <button type="submit">Szukaj</button>
+    </form>
+    <br>
+
+    {% if articles %}
+        <p>Znaleziono: {{ articles.count }} artykulow</p>
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <strong>{{ article.title }}</strong>
+                    — {{ article.status }}
+                    — {{ article.published_date }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Brak wynikow dla frazy "{{ query }}".</p>
+    {% endif %}
+</body>
+</html>

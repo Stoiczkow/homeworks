@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head><title>Strona glowna</title></head>
+<body>
+    {% if user.is_authenticated %}
+        Witaj, {{ user.username }}! <a href="/accounts/logout/">Wyloguj</a>
+    {% else %}
+        <a href="/accounts/login/">Zaloguj</a> | <a href="/accounts/signup/">Zarejestruj</a>
+    {% endif %}
+
+    <h1>5 najnowszych artykulow</h1>
+
+    <form action="/search/" method="GET">
+        <input type="text" name="q" placeholder="Szukaj artykulow...">
+        <button type="submit">Szukaj</button>
+    </form>
+    <br>
+
+    <ul>
+        {% for article in articles %}
+        <li>
+            <strong>{{ article.title }}</strong>
+            — {{ article.published_date }}
+            — kategoria: {{ article.category_id }}
+            — autor: {{ article.author_id }}
+            — tagi: {% for tag in article.tags.all %}{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
