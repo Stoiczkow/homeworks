@@ -1,0 +1,29 @@
+# Dwa zadania po kolei
+# Stwórz dwie korutyny: zadanie1 śpi przez 2 sekundy i drukuje "Zadanie 1 zakończone", a
+# zadanie2 śpi przez 1 sekundę i drukuje "Zadanie 2 zakończone". W głównej korutynie main
+# uruchom je sekwencyjnie (używając await na każdej z nich po kolei) i zmierz czas
+# wykonania.
+import asyncio
+import time
+
+async def zadanie1():
+    await asyncio.sleep(2)
+    print("Zadanie 1 zakończone")
+
+async def zadanie2():
+    await asyncio.sleep(1)
+    print("Zadanie 2 zakończone")
+
+async def main():
+    start = time.time()
+
+    await asyncio.gather(
+        zadanie1(),
+        zadanie2()
+    )
+
+    stop = time.time()
+
+    print(f"Czas wykonania: {stop - start}")
+
+asyncio.run(main())
