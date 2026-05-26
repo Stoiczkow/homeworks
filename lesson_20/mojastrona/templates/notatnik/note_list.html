@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Moje notatki{% endblock %}
+
+{% block content %}
+  <h2>Moje notatki</h2>
+  <ul>
+    {% for note in page_obj %}
+      <li><a href="/notes/{{ note.id }}/">{{ note.title }}</a></li>
+    {% empty %}
+      <li>Brak notatek.</li>
+    {% endfor %}
+  </ul>
+
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">poprzednia</a>
+    {% endif %}
+
+    Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">nastepna</a>
+    {% endif %}
+  </div>
+{% endblock %}

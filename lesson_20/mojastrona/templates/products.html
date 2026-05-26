@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Lista produktow{% endblock %}
+
+{% block content %}
+  <h2>Lista produktow</h2>
+  <ul>
+    {% for product in products %}
+      <li>{{ product.name }} - {{ product.price }} zl - {{ product.description }}
+        {% if product.category %}({{ product.category }}){% endif %}
+      </li>
+    {% empty %}
+      <li>Brak produktow w bazie.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'product-create' %}">+ Dodaj nowy produkt</a>
+{% endblock %}
