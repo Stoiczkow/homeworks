@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista uzytkownikow{% endblock %}
+
+{% block content %}
+    <h1>Wszyscy uzytkownicy</h1>
+    <ul>
+        {% for u in users %}
+            <li>{{ u.username }} — {{ u.email }} {% if u.is_staff %}[staff]{% endif %}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+    <h1>Witaj, {{ user.username }}!</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Data dolaczenia: {{ user.date_joined }}</p>
+{% endblock %}

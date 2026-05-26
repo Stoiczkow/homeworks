@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+    <h1>Logowanie</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zaloguj</button>
+    </form>
+    <p><a href="{% url 'register' %}">Nie masz konta? Zarejestruj sie</a></p>
+    {# zadanie 7 - Django automatycznie dodaje parametr ?next= gdy uzytkownik
+       probuje wejsc na chroniona strone. LoginView po zalogowaniu
+       przekierowuje na URL z parametru 'next', jesli istnieje,
+       w przeciwnym razie na LOGIN_REDIRECT_URL. #}
+{% endblock %}

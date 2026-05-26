@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Moja Strona{% endblock %}</title>
+</head>
+<body>
+    <nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">Profil</a> |
+            <a href="{% url 'password_change' %}">Zmien haslo</a> |
+            <form method="post" action="{% url 'logout' %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit">Wyloguj</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Zaloguj</a> |
+            <a href="{% url 'register' %}">Zarejestruj</a>
+        {% endif %}
+    </nav>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
