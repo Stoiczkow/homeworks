@@ -1,0 +1,14 @@
+# Zadanie 4 – Zabawa z niskopoziomowym API w shellu
+# Uruchom Django shell za pomocą komendy python manage.py shell. Zaimportuj from django.core.cache import cache. Użyj cache.set('my_key', 'hello world', 30) aby ustawić wartość, a następnie cache.get('my_key') aby ją odczytać. Poczekaj 30 sekund i spróbuj odczytać ją ponownie. Co się stało?
+
+# Za pierwszym razem wyświetliło wiadomośc, a po 30s otrzymałem pustą linijkę.
+# Dzieje się tak gdyż po podanym czasie (30s) wartość zniknęła z pamięci podręcznej.
+
+# Zadanie 5 – Czyszczenie cache
+# Znajdź w dokumentacji Django komendę manage.py, która pozwala na wyczyszczenie
+# całego cache. Użyj jej w terminalu, aby usunąć wszystkie zbuforowane dane.
+
+# Czyszczenie w shell: 
+# from django.core.cache import cache => cache.clear() 
+# Metoda w manage.py:
+# python manage.py clear_cache po uprzednim zainstalowaniu django_clear_cashe i dodaniu 'clear_cache' do INSTALLED_APPS w settings.py

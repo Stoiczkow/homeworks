@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'djoser',
+    'debug_toolbar',
+    'clear_cache',
     #moje
     'api',
 ]
@@ -58,6 +60,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     #SessionMiddleware - obsługuje sesje czyli mechanizmu zapamiętywania użytkownika
     'django.contrib.sessions.middleware.SessionMiddleware', 
@@ -122,6 +125,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    "default": {
+        # Zadanie 1: cache zapisane w pamięci RAM:
+        # "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        # Zadanie 6: cache zapisane w plikach:
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        # Zadanie 1:
+        # "LOCATION": "unique-snowflake",
+        # Zadanie 6: folder na cache:
+        "LOCATION": BASE_DIR / "django_cache",
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
@@ -139,3 +154,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
