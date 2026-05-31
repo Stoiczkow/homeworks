@@ -1,0 +1,40 @@
+# Środowiska wirtualne
+venv/
+env/
+ENV/
+.venv/
+
+# Python - pliki tymczasowe i kompilaty
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*$py.class
+
+# Bazy danych (ogólne i Django)
+*.db
+*.sqlite3
+*.sqlite3-journal
+*.sqbpro
+
+# Pliki Django (jeśli używasz)
+media/
+staticfiles/
+.env
+
+# Celery
+celerybeat-schedule
+celerybeat-schedule*
+celerybeat.pid
+
+# Pliki systemowe i IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Zdjęcia i pliki graficzne
+*.jpg
+*.jpeg
+*.png
+*.gif
