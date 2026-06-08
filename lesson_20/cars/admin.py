@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import Car, Dealer
 from django.utils.html import format_html
 
@@ -12,6 +12,7 @@ class CarAdmin(admin.ModelAdmin):
     list_filter = ['is_available', 'year']
     ordering = ['-year']
     readonly_fields = ['year']
+    actions = ['mark_as_unavailable']
 
     def full_name(self, obj):
         return f"{obj.brand} - {obj.model}"
@@ -28,6 +29,12 @@ class CarAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="150" />', obj.photo.url)
         else:
             return "Brak zdjęcia"
+        
+    def mark_as_unavailable(self, request, queryset):
+        rows_updated = queryset.update(is_available=False)
+        self.message_user(request, f'{rows_updated} samochodów oznaczonych jako niedostępne', messages.SUCCESS)
+    
+    mark_as_unavailable.short_description = "Oznacz samochód jako niedostępny"
 
 
 class CarInLine(admin.TabularInline):
