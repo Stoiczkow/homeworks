@@ -1,0 +1,23 @@
+<div>
+    <h3>Menu</h3>
+    <h4>Logowanie</h4>
+        <ul>
+            {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}">Wyloguj</a>
+            {% else %}
+            <li>
+                <a href="{% url 'account_login' %}">Zaloguj</a>
+            </li>
+            {% endif %}
+        </ul>
+    <h4>Strony</h4>
+    <ul>
+        <li>
+            <a href="{% url 'index' %}">Strona główna</a>
+        </li>
+            <li>
+            <a href="{% url 'personal' %}">Strona prywatna</a>
+        </li>
+    </ul>
+</div>
+<hr>

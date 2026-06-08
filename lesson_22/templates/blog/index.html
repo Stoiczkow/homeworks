@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Witaj na blogu</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+{% include 'blog/header.html' %}
+
+<form method="post">
+    {% csrf_token %} <!-- Ważne zabezpieczenie przed atakami CSRF! -->
+    {{ form.as_p }} <!-- Django wygeneruje pola formularza jako
+paragrafy <p> -->
+    <button type="submit">Wyślij</button>
+</form>
+<br><hr><br>
+{% if searched %}
+{% for searched_post in searched %}
+<p>Znaleziono: {{ searched_post }}</p>
+{% endfor %}
+{% endif %}
+    <b>Oto ostatnie posty:</b>
+{% if posts %}
+{% for post in posts %}
+<p>* {{ post.title }}</p>
+{% endfor %}
+{% else %}
+<p>Nie postów.</p>
+{% endif %}
+</body>
+
+</html>
