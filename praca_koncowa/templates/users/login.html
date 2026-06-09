@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasze Kino - Zaloguj się</title>
+    <link rel="stylesheet" href="{% static 'movies/style.css' %}">
+    <style>
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            background-color: #111111;
+            border: 1px solid #222;
+            border-top: 4px solid #00f7ff; /* Jasnoniebieski akcent na górze panelu */
+            border-radius: 8px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #00f7ff; /* Jasnoniebieski nagłówek */
+            text-transform: uppercase;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            color: #00f7ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        /* Stylizacja pól formularza generowanych przez Django */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Celujemy w standardowe inputs Django oraz czysty HTML */
+        .form-group input, 
+        input[type="text"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #00f7ff; /* Podświetlenie pola na niebiesko podczas pisania */
+        }
+
+        /* Przycisk logowania */
+        .login-btn {
+            width: 100%;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            color: #00f7ff; /* Jasnoniebieski tekst przycisku */
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: #00f7ff; /* Odwrócenie kolorów po najechaniu */
+            color: #000000;
+            border-color: #00f7ff;
+            transform: translateY(-2px);
+        }
+
+        /* Sekcja rejestracji na dole */
+        .register-redirect {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+
+        .register-redirect a {
+            color: #00f7ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-redirect a:hover {
+            text-decoration: underline;
+        }
+
+        /* Komunikaty błędów */
+        .errorlist {
+            color: #ff5555;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <a href="{% url 'home' %}" class="back-link">&larr; Wróć do strony głównej</a>
+        
+        <h2>Zaloguj się</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="errorlist">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_username">Nazwa użytkownika:</label>
+                {% if form.username %}
+                    {{ form.username }}
+                {% else %}
+                    <input type="text" name="username" id="id_username" required>
+                {% endif %}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password">Hasło:</label>
+                {% if form.password %}
+                    {{ form.password }}
+                {% else %}
+                    <input type="password" name="password" id="id_password" required>
+                {% endif %}
+                {{ form.password.errors }}
+            </div>
+
+            <button type="submit" class="login-btn">Zaloguj</button>
+        </form>
+
+        <div class="register-redirect">
+            Nie masz konta? <a href="{% url 'register' %}">Zarejestruj się</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kino - Rezerwacja Miejsc</title>
+    <link rel="stylesheet" href="{% static 'movies/style.css' %}">
+    <style>
+        /* Pasek nawigacji (Identyczny jak na stronie głównej) */
+        .navbar {
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            border-bottom: 4px solid #00f7ff; /* ZMIANA: Niebieska linia menu */
+            font-family: Arial, sans-serif;
+        }
+
+        .logo-container .logo-text {
+            color: #00f7ff;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-right-side {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-menu-links {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .nav-menu-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-menu-links a:hover {
+            color: #aaff00;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #ff5555;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .logout-btn:hover {
+            color: #aaff00;
+        }
+
+        /* Główny kontener strony rezerwacji */
+        body {
+            background-color: #111111;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content-container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            color: #00f7ff; /* ZMIANA: Nagłówek REZERWACJA MIEJSC na niebiesko */
+            margin-top: 0;
+            text-transform: uppercase;
+            border-bottom: 2px solid #00f7ff; /* ZMIANA: Kreska pod tytułem na niebiesko */
+            padding-bottom: 10px;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Box z podsumowaniem seansu */
+        .summary-box {
+            background-color: #111111;
+            border-left: 4px solid #00f7ff; /* ZMIANA: Niebieski pasek boczny info */
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+
+        .summary-item {
+            font-size: 15px;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-item strong {
+            color: #ffffff;
+        }
+
+        .price-highlight {
+            color: #00f7ff; /* ZMIANA: Podświetlenie ceny na niebiesko */
+            font-weight: bold;
+        }
+
+        /* Formularz wyboru ilości miejsc */
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #00f7ff; /* ZMIANA: Tekst "Wybierz liczbę biletów" na niebiesko */
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .tickets-input {
+            width: 100%;
+            padding: 12px;
+            background-color: #111111;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            margin-bottom: 25px;
+        }
+
+        .tickets-input:focus {
+            border-color: #00f7ff;
+        }
+
+        /* Główny przycisk zatwierdzający */
+        .submit-btn {
+            width: 100%;
+            background-color: #1a1a1a;
+            border: 2px solid #00f7ff; /* ZMIANA: Ramka przycisku na niebiesko */
+            color: #00f7ff; /* ZMIANA: Napis na niebiesko */
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .submit-btn:hover {
+            background-color: #00f7ff; /* ZMIANA: Tło po najechaniu niebieskie */
+            color: #000000; /* Tekst staje się czarny przy hover */
+            transform: translateY(-2px);
+        }
+
+        /* Link powrotny */
+        .back-to-repertuar {
+            display: inline-block;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .back-to-repertuar:hover {
+            color: #00f7ff;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="{% url 'home' %}" style="text-decoration: none;"><span class="logo-text">Nasze Kino</span></a>
+        </div>
+
+        <div class="nav-right-side">
+            <div class="nav-menu-links">
+                <a href="{% url 'home' %}">Strona Główna</a>
+                <a href="{% url 'show_all_movies' %}">Repertuar</a>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'panel_uzytkownika' %}" style="color: #00f7ff; font-weight: bold;">
+                        Użytkownik ({{ user.username }})
+                    </a>
+                    <form method="POST" action="{% url 'logout' %}" style="display: inline; margin: 0; padding: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Wyloguj się</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" style="color: #00f7ff; font-weight: bold;">Użytkownik</a>
+                    <a href="{% url 'register' %}">Rejestracja</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <h2>Rezerwacja Miejsc</h2>
+        
+        <div class="summary-box">
+            <div class="summary-item">Film: <strong>{{ seans.movie.title }}</strong></div>
+            <div class="summary-item">Data: <strong>{{ seans.date_screening|date:"d F Y" }}</strong></div>
+            <div class="summary-item">Godzina: <strong>{{ seans.start_time|time:"H:i" }}</strong></div>
+            <div class="summary-item">Cena za bilet: <span class="price-highlight">{{ seans.price }} zł</span></div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label class="form-label" for="id_ilosc_miejsc">Wybierz liczbę biletów:</label>
+            <input type="number" name="ilosc_miejsc" id="id_ilosc_miejsc" class="tickets-input" min="0" max="10" value="0" required>
+
+            <button type="submit" class="submit-btn">Potwierdzam rezerwację</button>
+        </form>
+
+        <a href="{% url 'show_all_movies' %}" class="back-to-repertuar">&larr; Wróć do repertuaru</a>
+    </div>
+
+</body>
+</html>

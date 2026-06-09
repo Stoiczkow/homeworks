@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyniki wyszukiwania</title>
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            border-bottom: 1px solid #222;
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-container h2 {
+            font-size: 1.5rem;
+            color: #00adb5; /* Elegancki niebieski akcent */
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .back-link {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #00adb5;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Główny kontener filmu - układ horyzontalny (Szeroki) */
+        .movie-detailed-card {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            background: #0f0f0f;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        /* Lewa strona: Opis i Tabela informacyjna */
+        .movie-left-side {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .movie-main-title {
+            font-size: 2.2rem;
+            margin: 0;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .movie-description {
+            color: #aaa;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Tabela z informacjami dokładnie jak na zdjęciu z kina */
+        .movie-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .movie-info-table tr {
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .movie-info-table td {
+            padding: 15px 0;
+            font-size: 0.95rem;
+            vertical-align: top;
+        }
+
+        /* Lewa kolumna tabeli - Szare nagłówki wielkimi literami */
+        .movie-info-table td.label {
+            color: #666;
+            text-transform: uppercase;
+            width: 25%;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Prawa kolumna tabeli - Białe wartości */
+        .movie-info-table td.value {
+            color: #ddd;
+        }
+
+        /* Prawa strona: Kontener na plakat o identycznych wymiarach jak na głównej */
+        .movie-right-side {
+            flex: 0 0 200px; /* Sztywna szerokość kolumny dokładnie 200px */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .poster-wrapper {
+            border: 2px solid #ff7300; /* Charakterystyczna ramka kinowa */
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            background: #222;
+            
+            /* Kopiujemy dokładne wymiary z .poster-container ze strony głównej */
+            width: 200px;
+            height: 280px; 
+        }
+
+        .poster-wrapper img {
+            /* Magia, która docina małego kota lub inne duże zdjęcia do kadru 200x280 bez deformacji */
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+        }
+
+        .no-image-box {
+            /* Wyśrodkowanie napisu "Brak plakatu" w stałym kadrze */
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        /* RWD: Dostosowanie do telefonów */
+        @media (max-width: 768px) {
+            .movie-detailed-card {
+                flex-direction: column-reverse;
+            }
+            .movie-info-table td.label {
+                width: 40%;
+            }
+            .movie-right-side {
+                max-width: 100%;
+                flex: auto; /* Pozwala na elastyczność na mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+
+        <a href="{% url 'home' %}" style="text-decoration: none;">
+            <h2>KINO</h2>
+        </a>
+    </div>
+
+    <div class="content">
+        {% for movie in movies %}
+            <div class="movie-detailed-card">
+                
+                <div class="movie-left-side">
+                    <h1 class="movie-main-title">{{ movie.title }}</h1>
+                    
+                    <p class="movie-description">
+                        {{ movie.content }}
+                    </p>
+                    
+                    <table class="movie-info-table">
+                        <tr>
+                            <td class="label">Data premiery:</td>
+                            <td class="value">{{ movie.release_date|date:"d E Y" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Gatunek filmu:</td>
+                            <td class="value">
+                                {% for g in movie.genre.all %}
+                                    {{ g.genre_name }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    Brak przypisanego gatunku
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Obsada:</td>
+                            <td class="value">
+                                {% for a in movie.actor.all %}
+                                    {{ a.name_surname }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    Brak informacji o obsadzie
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Reżyser:</td>
+                            <td class="value">{{ movie.director.name_surname }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="movie-right-side">
+                    <div class="poster-wrapper">
+                        {% if movie.poster %}
+                            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+                        {% else %}
+                            <div class="no-image-box">Brak plakatu</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        {% empty %}
+            <div class="no-results">
+                <p>Nie znaleziono filmów pasujących do kryteriów.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

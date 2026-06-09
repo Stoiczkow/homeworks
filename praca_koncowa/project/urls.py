@@ -1,0 +1,50 @@
+"""
+URL configuration for project project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+
+from rest_framework import routers
+from movies.views import MovieViewSet, home_page, search_movies_results
+
+from reservations.views import harmonogram_dnia, zarezerwuj_bilet, panel_uzytkownika, register
+from movies import views
+
+router = routers.DefaultRouter()
+router.register(r'movies', MovieViewSet)
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('home_cinema/', home_page, name='home'),
+    path('szukaj/', search_movies_results, name='search_results'),
+    path('filmy/', views.show_all_movies, name='show_all_movies'),
+    path('register/', register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    
+    path('harmonogram/', harmonogram_dnia, name='harmonogram'),
+    path('rezerwacja/<int:seans_id>/', zarezerwuj_bilet, name='zarezerwuj_bilet'),
+    path('moje-konto/', panel_uzytkownika, name='panel_uzytkownika'),
+
+    path('api/', include(router.urls)),  
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

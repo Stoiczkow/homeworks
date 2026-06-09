@@ -1,0 +1,59 @@
+/* Kontener siatki */
+.movie-grid {
+    display: grid;
+    /* Tworzy kolumny o szerokości 200px, które dopasowują się do ekranu */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #0c0c0c;
+}
+
+/* Pojedyncza mała karta */
+.movie-card {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    border: 1px solid #333;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+    border-color: #e50914;
+}
+
+/* Kontener na zdjęcie - klucz do jednolitości */
+.poster-container {
+    width: 100%;
+    height: 280px; /* Stała wysokość dla wszystkich zdjęć */
+    overflow: hidden;
+    background-color: #222;
+}
+
+.poster-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* To sprawi, że zdjęcia (kot/las) wypełnią kadr bez rozciągania */
+    display: block;
+}
+
+/* Napisy pod zdjęciem */
+.movie-info {
+    padding: 12px;
+    text-align: center;
+}
+
+.movie-info h3 {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Przycina zbyt długie tytuły */
+}
+
+.movie-info p {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 5px 0 0 0;
+}

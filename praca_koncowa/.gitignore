@@ -1,0 +1,29 @@
+# Środowisko wirtualne Pythona
+venv/
+env/
+ENV/
+
+# Pamięć podręczna Pythona 
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Pliki konfiguracyjne z hasłami i sekretami
+.env
+
+# Pliki multimedialne 
+media/
+
+# Logi (w tym Twój plik ze screena)
+*.txt
+*.log
+calculator_log.txt
+
+# Wyjątek:
+!requirements.txt
+
+# Foldery konfiguracyjne edytorów kodu (VS Code, PyCharm itp.)
+.vscode/
+.idea/
+*.swp

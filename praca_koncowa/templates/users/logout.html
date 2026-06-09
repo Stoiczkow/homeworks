@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasze Kino - Wylogowano</title>
+    <link rel="stylesheet" href="{% static 'movies/style.css' %}">
+    <style>
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .logout-container {
+            background-color: #111111;
+            border: 1px solid #222;
+            border-top: 4px solid #00f7ff; /* Jasnoniebieski pasek akcentujący */
+            border-radius: 8px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Ikona wylogowania lub sukcesu */
+        .success-icon {
+            font-size: 50px;
+            color: #00f7ff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            color: #aaa;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Licznik sekund */
+        .redirect-notice {
+            font-size: 13px;
+            color: #555;
+            margin-top: 25px;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+
+        #countdown {
+            color: #00f7ff;
+            font-weight: bold;
+        }
+
+        /* Przycisk ponownego zalogowania */
+        .login-again-btn {
+            display: inline-block;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            color: #00f7ff;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+        }
+
+        .login-again-btn:hover {
+            background-color: #00f7ff;
+            color: #000000;
+            border-color: #00f7ff;
+            transform: translateY(-2px);
+        }
+    </style>
+    
+    <script>
+        let seconds = 5;
+        function countdown() {
+            seconds--;
+            document.getElementById("countdown").textContent = seconds;
+            if (seconds <= 0) {
+                window.location.href = "{% url 'home' %}";
+            } else {
+                setTimeout(countdown, 1000);
+            }
+        }
+        window.onload = function() {
+            setTimeout(countdown, 1000);
+        }
+    </script>
+</head>
+<body>
+
+    <div class="logout-container">
+        <div class="success-icon">🔓</div>
+        <h2>Zostałeś pomyślnie wylogowany</h2>
+        <p>Dziękujemy za wizytę w naszym serwisie kinowym. Twoja sesja została bezpiecznie zakończona.</p>
+
+        <a href="{% url 'login' %}" class="login-again-btn">Zaloguj się ponownie</a>
+
+        <div class="redirect-notice">
+            Zostaniesz automatycznie przekierowany do strony głównej za <span id="countdown">5</span> sek...
+        </div>
+    </div>
+
+</body>
+</html> 
