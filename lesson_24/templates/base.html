@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Moja Strona{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <h1>Witaj na mojej stronie!</h1>
+    </header>
+    <main>
+        {% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+{{ message }}
+</div>
+{% endfor %}
+{% endif %}
+<h3>Menu</h3>
+{% if user.is_authenticated %}
+<h4><a href="{% url 'profile' %}">-> Profil</a></h4>
+<h4><a href="{% url 'changepassword' %}">-> Zmień hasło</a></h4>
+<h4><form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn-link">Wyloguj</button>
+</form></h4>
+{% else %}
+<h4><a href="{% url 'login' %}">Zaloguj</a></h4>
+<h4><a href="{% url 'register' %}">Zarejestruj</a></h4>
+{% endif %}
+<hr>
+        {% block content %}
+        <!-- Treść podstrony zostanie wstawiona tutaj -->
+        {% endblock %}
+    </main>
+    <footer>
+        <p>Zadania lekcja 24</p>
+    </footer>
+</body>
+
+</html>

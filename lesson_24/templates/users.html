@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lista użytkowników d.w. staffu</h2>
+<div class="border-top pt-3">
+    <hr>
+{% for user in users %}
+{{ user.id }} - {{ user.username }}
+<hr>
+{% endfor %}
+
+</div>
+{% endblock content %}
