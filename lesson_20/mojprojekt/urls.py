@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from info.views import info_view
+from user.views import user_view
 from rules.views import rules_view
 
 urlpatterns = [
@@ -25,6 +26,8 @@ urlpatterns = [
 
     # task_1 - start
     path('info/', info_view, name="info"),
-    path('rules/', rules_view, name="rules")
-    # task_1 - end
+    path('rules/', rules_view, name="rules"),
+
+    # task_2
+    path('user/<str:username>/', user_view, name='user')
 ]
