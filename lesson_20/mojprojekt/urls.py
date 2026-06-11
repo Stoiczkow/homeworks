@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 
 from info.views import info_view
+from notatnik.views import ListaNotatekView, NoteDetailView
+from product.views import ProductView
 from user.views import user_view
 from rules.views import rules_view
 
@@ -29,5 +31,12 @@ urlpatterns = [
     path('rules/', rules_view, name="rules"),
 
     # task_2
-    path('user/<str:username>/', user_view, name='user')
+    path('user/<str:username>/', user_view, name='user'),
+
+    #task_4 i task_5
+    path('product/', ProductView.as_view(), name="product"),
+
+    #task_6
+    path('notatnik/', ListaNotatekView.as_view(), name='notatki'),
+    path('notatnik/<int:notatka_id>/', NoteDetailView.as_view(), name='notatka')
 ]
