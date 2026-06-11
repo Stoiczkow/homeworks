@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista kategorii</title>
+</head>
+<body>
+    <h1>Kategorie</h1>
+
+    <!-- Zadanie 3 – lista kategorii -->
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{% url 'category-detail' category.pk %}">{{ category.name }}</a>
+            </li>
+        {% empty %}
+            <li>Brak kategorii.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
