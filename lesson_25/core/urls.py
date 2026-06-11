@@ -23,9 +23,14 @@ from product import views
 router = routers.DefaultRouter()
 router.register(r'products', views.ProductViewSet)
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Zadanie 3 - ViewSet i Router
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+
+    # Zadanie 5 - Widok z ciasteczkiem
+    path('api/hallo', views.hello_view),
+    path('api/set-name', views.set_name_view)
 ]
