@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista kategorii</title>
+
+    <!-- Zadanie 4 – plik statyczny CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <h1>Kategorie</h1>
 
-    <!-- Zadanie 3 – lista kategorii -->
+    <!-- Zadanie 3 – lista kategori -->
     <ul>
         {% for category in categories %}
             <li>
