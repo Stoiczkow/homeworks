@@ -1,5 +1,4 @@
 from django.db import models
-from django.views.generic import ListView
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
