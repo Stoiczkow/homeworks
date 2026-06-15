@@ -1,0 +1,1 @@
+Django używa Pythona. python python python.
