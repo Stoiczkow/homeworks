@@ -1,0 +1,19 @@
+{% extends "kino/base.html" %}
+
+{% block title %}Wyloguj się - KinoMania{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 3rem auto;">
+    <div style="background-color: #2a2a2a; padding: 2rem; border-radius: 8px; text-align: center;">
+        <h2>Wylogowanie</h2>
+        <p style="margin: 1.5rem 0; color: #bbb;">
+            Zostałeś wylogowany z aplikacji KinoMania.
+        </p>
+        
+        <div style="margin-top: 2rem;">
+            <a href="{% url 'home' %}" class="btn">Wróć na stronę główną</a>
+            <a href="{% url 'login' %}" class="btn secondary" style="margin-left: 1rem;">Zaloguj się ponownie</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

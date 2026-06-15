@@ -1,0 +1,68 @@
+{% extends "kino/base.html" %}
+
+{% block title %}Wszystkie filmy - KinoMania{% endblock %}
+
+{% block content %}
+<h1>🎬 Repertuar filmów</h1>
+
+<div class="search-bar">
+    <form method="get" style="display: flex; gap: 1rem; width: 100%;">
+        <input type="text" name="search" placeholder="Szukaj filmów..." value="{{ search }}" style="flex: 1; min-width: 0;">
+        <select name="gatunek" style="flex: 1; min-width: 0;">
+            <option value="">Wszystkie gatunki</option>
+            {% for gatunek in gatunki %}
+                <option value="{{ gatunek.id }}" {% if gatunek.id|stringformat:"s" == selected_gatunek %}selected{% endif %}>
+                    {{ gatunek.nazwa }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn" style="flex: 0 0 auto;">Szukaj</button>
+    </form>
+</div>
+
+<div class="grid">
+    {% for film in filmy %}
+        <div class="card">
+            <div class="card-image">
+                {% if film.plakat %}
+                    <img src="{{ film.plakat.url }}" alt="{{ film.tytul }}">
+                {% else %}
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background-color: #444;">
+                        <span style="font-size: 3rem;">🎬</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-content">
+                <div class="card-title">{{ film.tytul }}</div>
+                <div class="card-description">{{ film.opis|truncatewords:15 }}</div>
+                <div class="card-meta">
+                    <strong>Reżyser:</strong> {{ film.rezyser }}<br>
+                    <strong>Gatunek:</strong> {% for g in film.gatunek.all %}{{ g.nazwa }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+                    <strong>Data premiery:</strong> {{ film.data_premiery|date:"d.m.Y" }}<br>
+                    <strong>Liczba aktorów:</strong> {{ film.aktorzy.count }}
+                </div>
+                <br>
+                <a href="{% url 'film_detail' film.id %}" class="btn">Szczegóły</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Brak filmów spełniających kryteria wyszukiwania.</p>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+    <div style="text-align: center; margin-top: 2rem;">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if search %}&search={{ search }}{% endif %}{% if selected_gatunek %}&gatunek={{ selected_gatunek }}{% endif %}" class="btn">Pierwsza strona</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_gatunek %}&gatunek={{ selected_gatunek }}{% endif %}" class="btn secondary">← Poprzednia</a>
+        {% endif %}
+        
+        <span style="margin: 0 1rem;">Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_gatunek %}&gatunek={{ selected_gatunek }}{% endif %}" class="btn secondary">Następna →</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}{% if selected_gatunek %}&gatunek={{ selected_gatunek }}{% endif %}" class="btn">Ostatnia strona</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

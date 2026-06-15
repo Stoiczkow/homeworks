@@ -1,0 +1,50 @@
+{% extends "kino/base.html" %}
+
+{% block title %}Potwierdź rezerwację - KinoMania{% endblock %}
+
+{% block content %}
+<a href="{% url 'rezerwacje_lista' %}" class="btn secondary">← Wróć do rezerwacji</a>
+
+<div style="background-color: #2a2a2a; padding: 2rem; border-radius: 8px; margin-top: 2rem; max-width: 600px;">
+    <h2>✓ Potwierdzenie rezerwacji</h2>
+    
+    <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 4px; margin-bottom: 2rem;">
+        <strong>Potwierdzenie!</strong> Rezerwacja będzie potwierdzona.
+    </div>
+    
+    <div style="background-color: #333; padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem;">
+        <h3>Szczegóły rezerwacji</h3>
+        <table style="width: 100%; margin-top: 1rem;">
+            <tr>
+                <td style="border: none; padding: 0.5rem 0;"><strong>Film:</strong></td>
+                <td style="border: none; padding: 0.5rem 0; text-align: right;">{{ rezerwacja.seans.film.tytul }}</td>
+            </tr>
+            <tr>
+                <td style="border: none; padding: 0.5rem 0;"><strong>Data i godzina:</strong></td>
+                <td style="border: none; padding: 0.5rem 0; text-align: right;">{{ rezerwacja.seans.czas_rozpoczecia|date:"d.m.Y, H:i" }}</td>
+            </tr>
+            <tr>
+                <td style="border: none; padding: 0.5rem 0;"><strong>Liczba biletów:</strong></td>
+                <td style="border: none; padding: 0.5rem 0; text-align: right;">{{ rezerwacja.ilosc_miejsc }}</td>
+            </tr>
+            <tr>
+                <td style="border: none; padding: 0.5rem 0;"><strong>Cena za bilet:</strong></td>
+                <td style="border: none; padding: 0.5rem 0; text-align: right;">{{ rezerwacja.seans.cena }} zł</td>
+            </tr>
+            <tr style="border-top: 1px solid #555;">
+                <td style="border: none; padding: 0.5rem 0; padding-top: 1rem;"><strong>Razem:</strong></td>
+                <td style="border: none; padding: 0.5rem 0; padding-top: 1rem; text-align: right; font-weight: bold; font-size: 1.2rem;">
+                    {% load custom_tags %}
+                    {{ rezerwacja.ilosc_miejsc|multiply:rezerwacja.seans.cena }} zł
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn">Potwierdź rezerwację</button>
+        <a href="{% url 'rezerwacje_lista' %}" class="btn secondary" style="margin-left: 1rem;">Anuluj</a>
+    </form>
+</div>
+{% endblock %}

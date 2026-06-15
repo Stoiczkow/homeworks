@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}KinoMania - Rezerwacja biletów kinowych{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #d32f2f;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .navbar a:hover {
+            opacity: 0.8;
+        }
+
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 !important;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-info {
+            margin-left: auto;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .messages {
+            margin-bottom: 1.5rem;
+        }
+
+        .message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid;
+        }
+
+        .message.success {
+            background-color: #2e7d32;
+            border-color: #66bb6a;
+            color: #c8e6c9;
+        }
+
+        .message.error {
+            background-color: #c62828;
+            border-color: #ef5350;
+            color: #ffcdd2;
+        }
+
+        .message.warning {
+            background-color: #f57f17;
+            border-color: #fbc02d;
+            color: #fff3e0;
+        }
+
+        .message.info {
+            background-color: #0277bd;
+            border-color: #03a9f4;
+            color: #b3e5fc;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #d32f2f;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+        }
+
+        .btn.secondary {
+            background-color: #555;
+        }
+
+        .btn.secondary:hover {
+            background-color: #777;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #d32f2f;
+            box-shadow: 0 0 5px rgba(211, 47, 47, 0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            background-color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar input[type="text"] {
+            flex: 1;
+        }
+
+        .search-bar select {
+            min-width: 200px;
+        }
+
+        .search-bar button {
+            padding: 0.75rem 2rem;
+        }
+
+        .reservations-list {
+            margin-top: 2rem;
+        }
+
+        .reservation-card {
+            background-color: #2a2a2a;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .reservation-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-completed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th {
+            background-color: #d32f2f;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        table td {
+            padding: 1rem;
+            border-bottom: 1px solid #444;
+        }
+
+        table tr:hover {
+            background-color: #333;
+        }
+
+        .footer {
+            background-color: #222;
+            color: #999;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #444;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            padding: 3rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar select {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{% url 'home' %}" class="navbar-logo">🎬 KinoMania</a>
+            <div class="navbar-links">
+                <a href="{% url 'filmy_lista' %}">Filmy</a>
+                <a href="{% url 'seanse_lista' %}">Seanse</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'rezerwacje_lista' %}">Moje Rezerwacje</a>
+                    <form method="post" action="{% url 'logout' %}" style="display:inline; margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn" style="padding:0.4rem 1rem; font-size:0.95rem; cursor:pointer;">
+                            Wyloguj się ({{ user.username }})
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Zaloguj się</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 KinoMania - Rezerwacja biletów kinowych | Zbudowano w Django</p>
+    </footer>
+</body>
+</html>

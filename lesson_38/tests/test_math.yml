@@ -1,0 +1,38 @@
+#Zadanie 3 i 4
+
+$plik yml
+
+name: Hello
+
+on:
+  push:
+
+jobs:
+  python_function:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Create and run python file
+        run: |
+          touch hello.py
+          echo 'def hello():
+              print("Hello Paweł")
+          hello()' > hello.py
+          python hello.py
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest tests/
+
+# plik tests/test_math.py
+def test_addition():
+    assert 2 + 2 == 4

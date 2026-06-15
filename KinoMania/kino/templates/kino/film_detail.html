@@ -1,0 +1,71 @@
+{% extends "kino/base.html" %}
+
+{% block title %}{{ film.tytul }} - KinoMania{% endblock %}
+
+{% block content %}
+<a href="{% url 'filmy_lista' %}" class="btn secondary">← Wróć do listy</a>
+
+<div style="margin-top: 2rem; display: grid; grid-template-columns: 300px 1fr; gap: 3rem; margin-bottom: 3rem;">
+    <div>
+        {% if film.plakat %}
+            <img src="{{ film.plakat.url }}" alt="{{ film.tytul }}" style="width: 100%; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.5);">
+        {% else %}
+            <div style="background-color: #444; height: 400px; display: flex; align-items: center; justify-content: center; font-size: 4rem; border-radius: 8px;">
+                🎬
+            </div>
+        {% endif %}
+    </div>
+
+    <div>
+        <h1>{{ film.tytul }}</h1>
+        
+        <div style="margin-bottom: 2rem;">
+            <strong>Reżyser:</strong> {{ film.rezyser }}<br>
+            <strong>Data premiery:</strong> {{ film.data_premiery|date:"d.m.Y" }}<br>
+            <strong>Gatunki:</strong> {% for g in film.gatunek.all %}{{ g.nazwa }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+        </div>
+
+        <h3>Opis</h3>
+        <p style="line-height: 1.8; margin-bottom: 2rem;">{{ film.opis }}</p>
+
+        {% if film.aktorzy.all %}
+            <h3>Obsada</h3>
+            <ul style="margin-left: 1.5rem; margin-bottom: 2rem;">
+                {% for aktor in film.aktorzy.all %}
+                    <li>{{ aktor.imie_nazwisko }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if seanse %}
+            <h3>Dostępne seanse</h3>
+            <table style="margin-bottom: 2rem;">
+                <thead>
+                    <tr>
+                        <th>Data i godzina</th>
+                        <th>Cena</th>
+                        <th>Dostępne miejsca</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for seans in seanse %}
+                        <tr>
+                            <td>{{ seans.czas_rozpoczecia|date:"d.m.Y, H:i" }}</td>
+                            <td>{{ seans.cena }} zł</td>
+                            <td>{{ seans.dostepne_miejsca }} / {{ seans.liczba_miejsc }}</td>
+                            <td>
+                                <a href="{% url 'seans_detail' seans.id %}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                    Szczegóły
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color: #999; margin-top: 2rem;">Brak zaplanowanych seansów dla tego filmu.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

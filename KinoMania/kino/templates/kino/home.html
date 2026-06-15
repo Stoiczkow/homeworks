@@ -1,0 +1,63 @@
+{% extends "kino/base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>🎬 Witaj w KinoMania!</h1>
+    <p>Najlepsza kina czekają na Ciebie. Rezerwuj bilety online z łatwością.</p>
+</div>
+
+<h2>🆕 Najnowsze filmy</h2>
+<div class="grid">
+    {% for film in filmy_najnowsze %}
+        <div class="card">
+            <div class="card-image">
+                {% if film.plakat %}
+                    <img src="{{ film.plakat.url }}" alt="{{ film.tytul }}">
+                {% else %}
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background-color: #444;">
+                        <span style="font-size: 3rem;">🎬</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-content">
+                <div class="card-title">{{ film.tytul }}</div>
+                <div class="card-description">{{ film.opis|truncatewords:15 }}</div>
+                <div class="card-meta">
+                    <strong>Reżyser:</strong> {{ film.rezyser }}<br>
+                    <strong>Gatunek:</strong> {% for g in film.gatunek.all %}{{ g.nazwa }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
+                    <strong>Data premiery:</strong> {{ film.data_premiery|date:"d.m.Y" }}
+                </div>
+                <br>
+                <a href="{% url 'film_detail' film.id %}" class="btn">Szczegóły</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Brak filmów w repertuarze.</p>
+    {% endfor %}
+</div>
+
+{% if seanse_jutro %}
+    <h2>🎞️ Seanse jutro</h2>
+    <div class="grid">
+        {% for seans in seanse_jutro %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title">{{ seans.film.tytul }}</div>
+                    <div class="card-meta">
+                        <strong>Godzina:</strong> {{ seans.czas_rozpoczecia|date:"H:i" }}<br>
+                        <strong>Cena:</strong> {{ seans.cena }} zł<br>
+                        <strong>Dostępne miejsca:</strong> {{ seans.dostepne_miejsca }}/{{ seans.liczba_miejsc }}
+                    </div>
+                    <br>
+                    <a href="{% url 'seans_detail' seans.id %}" class="btn">Szczegóły / Rezerwuj</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div style="text-align: center; margin-top: 3rem;">
+    <a href="{% url 'filmy_lista' %}" class="btn">Przeglądaj wszystkie filmy</a>
+    <a href="{% url 'seanse_lista' %}" class="btn secondary" style="margin-left: 1rem;">Wszystkie seanse</a>
+</div>
+{% endblock %}

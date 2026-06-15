@@ -1,0 +1,80 @@
+{% extends "kino/base.html" %}
+
+{% block title %}Seanse - KinoMania{% endblock %}
+
+{% block content %}
+<h1>🎞️ Harmonogram seansów</h1>
+
+<div class="search-bar">
+    <form method="get" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        {% for day in next_days %}
+            <button type="submit" name="data" value="{{ day|date:'Y-m-d' }}" class="btn {% if day|date:'Y-m-d' == selected_date %}active{% endif %}" style="padding: 0.5rem 1rem;">
+                {{ day|date:"d.m" }}
+            </button>
+        {% endfor %}
+        <button type="submit" name="data" value="" class="btn secondary" style="padding: 0.5rem 1rem;">
+            Wyczyść filtr
+        </button>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Film</th>
+            <th>Data i godzina</th>
+            <th>Cena</th>
+            <th>Dostępne miejsca</th>
+            <th>Akcja</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for seans in seanse %}
+            <tr>
+                <td>
+                    <strong>{{ seans.film.tytul }}</strong><br>
+                    <small style="color: #999;">Reżyser: {{ seans.film.rezyser }}</small>
+                </td>
+                <td>{{ seans.czas_rozpoczecia|date:"d.m.Y, H:i" }}</td>
+                <td>{{ seans.cena }} zł</td>
+                <td>
+                    {% if seans.dostepne_miejsca > 0 %}
+                        <span style="color: #66bb6a; font-weight: bold;">
+                            {{ seans.dostepne_miejsca }} / {{ seans.liczba_miejsc }}
+                        </span>
+                    {% else %}
+                        <span style="color: #ef5350; font-weight: bold;">Brak miejsc</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'seans_detail' seans.id %}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        Szczegóły
+                    </a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: #999; padding: 2rem;">
+                    Brak seansów w wybranym dniu.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+    <div style="text-align: center; margin-top: 2rem;">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="btn">Pierwsza strona</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn secondary">← Poprzednia</a>
+        {% endif %}
+        
+        <span style="margin: 0 1rem;">Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn secondary">Następna →</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn">Ostatnia strona</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

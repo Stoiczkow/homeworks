@@ -1,0 +1,23 @@
+#Zadnie 2
+
+name: Hello
+
+on:
+  push:
+
+jobs:
+  python_function:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Create and run python file
+        run: |
+          touch hello.py
+          echo 'def hello():
+              print("Hello Paweł")
+          hello()' > hello.py
+          python hello.py
