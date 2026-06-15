@@ -1,0 +1,12 @@
+#Zadanie 1.
+name: Hello
+
+on:
+  push:
+
+jobs:
+  print_hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print hello
+        run: echo "Hello, CI/CD!!"
