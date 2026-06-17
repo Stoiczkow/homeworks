@@ -1,0 +1,95 @@
+from aiohttp import web
+from sqlalchemy import String, Integer
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_sessionmaker,
+    AsyncSession,
+)
+
+
+DB_URL = "sqlite+aiosqlite:///lesson32.db"
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+class Product(Base):
+    __tablename__ = "products"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100))
+    price: Mapped[int] = mapped_column(Integer)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "price": self.price,
+        }
+
+
+async def init_db(app: web.Application):
+    print("Inicjalizuję bazę danych...")
+
+    engine = create_async_engine(DB_URL, echo=True)
+
+    session_factory = async_sessionmaker(
+        engine,
+        expire_on_commit=False,
+        class_=AsyncSession,
+    )
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+    app["db_engine"] = engine
+    app["db_session_factory"] = session_factory
+
+    print("Baza danych gotowa.")
+
+
+async def close_db(app: web.Application):
+    print("Zamykam połączenie z bazą danych...")
+
+    engine = app["db_engine"]
+    await engine.dispose()
+
+
+async def create_product(request: web.Request):
+    try:
+        data = await request.json()
+        name = data["name"]
+        price = data["price"]
+    except Exception:
+        raise web.HTTPBadRequest(text="Oczekiwano JSON z polami 'name' i 'price'")
+
+    session_factory = request.app["db_session_factory"]
+
+    async with session_factory() as session:
+        async with session.begin():
+            new_product = Product(name=name, price=price)
+            session.add(new_product)
+
+            await session.flush()
+
+            product_data = new_product.to_dict()
+
+    return web.json_response(product_data, status=201)
+
+
+def create_app():
+    app = web.Application()
+
+    app.router.add_post("/products", create_product)
+
+    app.on_startup.append(init_db)
+    app.on_cleanup.append(close_db)
+
+    return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    web.run_app(app, host="127.0.0.1", port=8080)
